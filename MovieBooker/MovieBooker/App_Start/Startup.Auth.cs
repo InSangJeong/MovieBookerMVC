@@ -5,6 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using MovieBooker.Models;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace MovieBooker
 {
@@ -13,7 +16,10 @@ namespace MovieBooker
         // 인증 구성에 대한 자세한 내용은 http://go.microsoft.com/fwlink/?LinkId=301864를 참조하십시오.
         public void ConfigureAuth(IAppBuilder app)
         {
-            // 요청당 단일 인스턴스를 사용하도록 db 컨텍스트, 사용자 관리자 및 로그인 관리자 구성
+
+            //Session[SessionObject_dbManager] = dbManager;
+
+
 
             // 응용 프로그램이 쿠키를 사용하여 로그인한 사용자에 대한 정보를 저장하도록 설정합니다.
             // 또한 쿠키를 사용하여 타사 로그인 공급자를 통한 사용자 로그인 관련 정보를 일시적으로 저장하도록 설정합니다.

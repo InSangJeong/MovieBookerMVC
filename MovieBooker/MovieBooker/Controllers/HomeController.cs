@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MovieBooker.DAL;
+using MovieBooker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +10,28 @@ namespace MovieBooker.Controllers
 {
     public class HomeController : Controller
     {
-        public string Index()
-        //public ActionResult Index()
+        public ActionResult Index()
         {
-            //return View();
-            return "Hellow world";
+            return View();
         }
+       
+        public ActionResult Main()
+        {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult loginAdmin()
+        {
+            return View();
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult loginAdmin(List<Member> loginedMember)
+        {
+
+
+            return View();
+        }
+
     }
 }

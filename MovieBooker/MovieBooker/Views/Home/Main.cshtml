@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+    Page.Title = "영화 예매 시스템에 오신것을 환영합니다.";
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Main</title>
+</head>
+<body>
+    <div style="height: 273px">
+        <table style="width: 100%; height: 200px;">
+            <tr>
+                <td class="auto-style1" colspan="2" aria-multiline="True">&nbsp;영화 예매 시스템에 오신것을 환영합니다.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                    ID : <input id="TXT_ID" type="text" />
+                    <br />
+                    <br />
+                    Password : <input id="TXT_Pass" type="password" />
+                    <br />
+                    <br />
+                    
+                    <input id="BTN_LOGIN" type="button" value="로그인"  onclick= "location.href='@Url.Action("Index", "Home")'"/>
+                    &nbsp;&nbsp;
+                    <input id="BTN_NewMember" type="button" value="회원가입" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    </form>
+</body>
+</html>
