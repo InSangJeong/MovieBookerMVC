@@ -8,18 +8,17 @@ using System.Web;
 
 namespace MovieBooker.DAL
 {
-    public class Member_DAL
+    public class Theater_DAL
     {
         public static SqlConnection connect = new SqlConnection(ConfigurationManager.ConnectionStrings["DBManager"].ToString());
 
-        public static List<Member> Select_Member(string WhereString, List<Tuple<string, object>> Params)
+        public static List<Theater> Select_Theater(string WhereString, List<Tuple<string, object>> Params)
         {
             connect.Open();
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = connect;
             //Set command
-            cmd.CommandText = "Select * from Member " + WhereString;
-            
+            cmd.CommandText = "Select * from Theater " + WhereString;
 
             //Set params
             foreach (Tuple<string, object> param in Params)
@@ -28,10 +27,10 @@ namespace MovieBooker.DAL
             }
             //Do read Data
             SqlDataReader reader = cmd.ExecuteReader();
-            List<Member> members = Member.SqlDataReaderToMember(reader);
+            List<Theater> Theaters = Theater.SqlDataReaderToMember(reader);
             //커넥트가 닫히면 값을 받아올수 없다.
             connect.Close();
-            return members;
+            return Theaters;
         }
         public static bool DoCommand(string CommandString, List<Tuple<string, object>> Params)
         {

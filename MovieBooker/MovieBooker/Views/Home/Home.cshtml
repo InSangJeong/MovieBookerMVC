@@ -1,0 +1,31 @@
+﻿@model  MovieBooker.Models.Member
+@{
+    Layout = null;
+    Page.Title = "";
+}
+<h2>영화 예매 시스템에 오신것을 환영합니다.</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Main</title>
+</head>
+<body>
+    <div style="height: 273px">
+      
+        @using (Html.BeginForm("Home", "Home"))
+        {
+            @Html.TextBoxFor(m => m.ID)<br />
+            @Html.PasswordFor(m => m.Pass)<br />
+            <input type="submit" value="로그인" />
+        }
+        @using (Html.BeginForm("NewMember", "Home"))
+        {
+            <input type="submit" value="회원가입" />
+        }
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,79 @@
+﻿@model MovieBooker.Models.Movie
+
+@{
+    ViewBag.Title = "MovieList";
+}
+
+<h2>영화 목록</h2>
+
+<html>
+<head>
+    <title></title>
+    <script language="javascript">
+
+        function SetMoivesToTable()
+        {
+            var MovieList = @Html.Raw(Json.Encode(ViewBag.Movies));
+
+            var table = document.getElementById("MovieListTable");
+            var i = 0;
+            for(var movie in MovieList)
+            {
+                var tr = document.createElement("tr");
+                tr.setAttribute("bgColor", "#FFFFCC"); // 배경색
+
+                var td1 = document.createElement("td");
+                var td2 = document.createElement("td");
+                var td3 = document.createElement("td");
+                var td4 = document.createElement("td");
+                var td5 = document.createElement("td");
+                td1.innerText = MovieList[i].Moviename;
+                td2.innerText = MovieList[i].Playstartdatetime;
+                td3.innerText = MovieList[i].Playenddatetime;
+                td4.innerText = MovieList[i].Runningtime;
+                td5.innerText = MovieList[i].Viewingclass;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+
+                // 입력된값을 넣은 tr 개체를 추가한다.
+                table.appendChild(tr);
+                i++;
+            }
+        }
+    </script>
+</head>
+<body>
+    <table border="1" id="MovieListTable">
+        <tr>
+            <th>영화제목</th>
+            <th>상영 시작일</th>
+            <th>상영 종료일</th>
+            <th>상영시간</th>
+            <th>관람등급</th>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        SetMoivesToTable();
+    </script>
+    <table>
+        <tr>
+            <th>
+
+                @using (Html.BeginForm("NewMovie", "Home"))
+            {
+                    <input type="submit" value="영화등록" />
+                }
+            </th>
+            <th>
+                @using (Html.BeginForm("loginAdmin", "Home"))
+            {
+                    <input type="submit" value="돌아가기" />
+                }
+            </th>
+        </tr>
+    </table>
+</body>
+</html>

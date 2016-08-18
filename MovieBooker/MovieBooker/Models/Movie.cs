@@ -24,13 +24,13 @@ namespace MovieBooker.Models
                 while (Reader.Read())
                 {
                     Movie Movie = new Movie();
-                    Movie.MovieID = Reader["MovieID"].ToString();
-                    Movie.Moviename = Reader["Moviename"].ToString();
+                    Movie.MovieID = Reader["MovieID"].ToString().Trim();
+                    Movie.Moviename = Reader["Moviename"].ToString().Trim();
                     Movie.Playstartdatetime = Reader["Playstartdatetime"].ToString();
                     Movie.Playenddatetime = Reader["Playenddatetime"].ToString();
                     Movie.Runningtime = Reader["Runningtime"].ToString();
                     Movie.Viewingclass = Reader["Viewingclass"].ToString();
-                    Movie.Movieposter = Reader["Movieposter"].ToString();
+                    Movie.Movieposter = Reader["Movieposter"].ToString().Trim();
 
                     Movies.Add(Movie);
                 }

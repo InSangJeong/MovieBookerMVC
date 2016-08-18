@@ -1,0 +1,59 @@
+﻿@model MovieBooker.Models.Member
+@{
+    ViewBag.Title = "MemberList";
+}
+
+<h2>고객 목록</h2>
+
+<html>
+<head>
+    <title></title>
+
+</head>
+<body>
+    <table border="1" id="MemberTable">
+        <tr>
+            <th>고객 ID </th>
+            <th>이름</th>
+            <th>나이</th>
+            <th>성별</th>
+            <th></th>
+        </tr>
+        @foreach(MovieBooker.Models.Member member in ViewBag.Members)
+        {
+            if (member.ID.Trim().Equals("admin"))
+            {
+                continue;
+            }
+            <tr>
+                <td>@member.ID</td>
+                <td>@member.Name</td>
+                <td>@member.Age</td>
+                <td>@member.Sex</td>
+                <td>@using (Html.BeginForm("RemoveMember", "Member"))
+                {
+                    @Html.Hidden("member.ID", member.ID)
+                    <input type="submit" value="제거" />
+                }
+                </td >
+            </tr>
+        }
+    </table>
+    <table>
+        <tr>
+            <th>
+                @using (Html.BeginForm("MemberList", "Member"))
+            {
+                    <input type="submit" value="회원 삭제" />
+                }
+            </th>
+            <th>
+                @using (Html.BeginForm("loginAdmin", "Home"))
+            {
+                    <input type="submit" value="이전 페이지" />
+                }
+            </th>
+        </tr>
+    </table>
+</body>
+</html>

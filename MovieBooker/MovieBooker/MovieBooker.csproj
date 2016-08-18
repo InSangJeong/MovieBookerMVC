@@ -196,14 +196,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\TheaterController.cs" />
     <Compile Include="DAL\Member_DAL.cs" />
+    <Compile Include="DAL\Movie_DAL.cs" />
+    <Compile Include="DAL\Theater_DAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BookingInfo.cs" />
     <Compile Include="Controllers\Common.cs" />
     <Compile Include="Controllers\Constant.cs" />
-    <Compile Include="Controllers\DBManager.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Movieschedule.cs" />
@@ -233,8 +236,18 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Home\loginAdmin.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Member\NewMember.cshtml" />
+    <Content Include="Views\Home\LoginMember.cshtml" />
+    <Content Include="Views\Home\MovieList.cshtml" />
+    <Content Include="Views\Home\Booking.cshtml" />
+    <Content Include="Views\Home\BookingList.cshtml" />
+    <Content Include="Views\Member\MemberList.cshtml" />
+    <Content Include="Views\Home\NewMovie.cshtml" />
+    <Content Include="Views\Home\RechargePoint.cshtml" />
+    <Content Include="Views\Home\SearchAbleTheater.cshtml" />
+    <Content Include="Views\Theater\TheaterList.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
