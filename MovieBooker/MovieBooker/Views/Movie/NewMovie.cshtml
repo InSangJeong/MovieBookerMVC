@@ -1,0 +1,79 @@
+﻿@model MovieBooker.Models.MovieAndTheater
+@{
+    ViewBag.Title = "영화 정보를 기입하여 주세요.";
+}
+
+<h2>NewMovie</h2>
+
+<html>
+<head>
+    <title>영화 등록 </title>
+    <script language="javascript">
+        function SetValue()
+        {
+
+            alert("in JS");
+            ////TODO 자식창 생성 
+            location.href = '@Url.Action("SelectTheater", "Theater")?StartDatetime=' + document.getElementById(TXT_StartDay).Text
+                + '&EndDatetime=' + document.getElementById(TXT_EndDay).Text;
+            alert("exit JS");
+        }
+    </script>
+</head>
+<body>
+    <table>
+        @using (Html.BeginForm("NewMovie", "Movie", FormMethod.Post, new { enctype = "multipart/from-data"}))
+        {
+            <tr>
+                <td>영화 제목</td>
+                <td>@Html.TextBoxFor(m => m.movie.Moviename)</td>
+            </tr>
+            <tr>
+                <td>상영 시작일시</td>
+                <td>@Html.TextBoxFor(m => m.movie.Playstartdatetime, new { id = "TXT_StartDay" })</td>
+            </tr>
+            <tr>
+                <td>상영 종료일시</td>
+                <td>@Html.TextBoxFor(m => m.movie.Playenddatetime, new { id = "TXT_EndDay" })</td>
+            </tr>
+            <tr>
+                <td>상영관</td>
+                @*<td><button type="button" onclick="window.open('@Url.Action(" SelectTheater", "Theater" , new { id="9" } ) ', '_blank'); return false;">submit</button></td>*@
+                @*<script type="text/javascript">SetValue();</script>*@
+                @*<td><button type="button" onclick="window.open('@Url.Action("SelectTheater", "Theater", new { StartDateTime = "" , EndDatetime = "eDay" })', '_blank'); return false;">상영관 검색</button></td>*@
+                <td> <button type="button" onclick="SetValue()">상영관 검색 </button> </td>
+            </tr>
+            <tr>
+                <td>상영관이미지</td>
+                <td>
+                    @Html.HiddenFor(m => m.movie.Movieposter)
+                    <input type="file" name="file" id="file"/>
+                </td>
+            </tr>
+            <tr>
+                <td>관람등급</td>
+                <td>@Html.TextBoxFor(m => m.movie.Viewingclass)</td>
+            </tr>
+            <tr>
+                <td>Run Time</td>
+                <td>@Html.TextBoxFor(m => m.movie.Runningtime)</td>
+            </tr>
+            <tr>
+                <td>상영 시간 목록</td>
+                <td>@Html.TextAreaFor(m => m.PlayDayTimes)</td>
+                <td><input type="text" /></td>
+                <td><input type="button" value="추가" /></td>
+            </tr>
+                
+            <tr>
+                <td><input type="submit" value="추가" /></td>
+                <td>
+                    <input type="button" value="돌아가기" onclick="location.href='@Url.Action("MovieList", "Movie")'"/>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</body>
+</html>

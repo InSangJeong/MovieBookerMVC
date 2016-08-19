@@ -87,12 +87,7 @@ namespace MovieBooker.Controllers
 
 
 
-        public ActionResult MovieList()
-        {
-            List<Movie> ALLMovies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
-            ViewBag.Movies = ALLMovies;
-            return View();
-        }
+
 
     
 

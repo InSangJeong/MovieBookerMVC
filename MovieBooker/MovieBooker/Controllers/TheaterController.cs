@@ -66,5 +66,11 @@ namespace MovieBooker.Controllers
 
             return RedirectToAction("TheaterList", "Theater");
         }
+
+        public ActionResult SelectTheater(string StartDatetime, string EndDatetime)
+        {
+
+            return View();
+        }
     }
 }
