@@ -6,3 +6,54 @@
 
 <h2>NewMember</h2>
 
+<html>
+<head>
+    <title>회원 가입</title>
+</head>
+<body>
+    회원가입 페이지입니다.
+    (*)표시는 필수사항입니다.
+    <table>
+@using (Html.BeginForm("NewMember", "Member"))
+{
+    <tr>
+        <td>계정(*)</td>
+        <td>@Html.TextBoxFor(m => m.ID)</td>
+    </tr>
+        <tr>
+            <td>비밀번호(*)</td>
+            <td>@Html.TextBoxFor(m => m.Pass)</td>
+        </tr>
+        <tr>
+            <td>비밀번호 확인(*)</td>
+            <td>@Html.TextBoxFor(m => m.CheckPass)</td>
+        </tr>
+        <tr>
+            <td>이름(*)</td>
+            <td>@Html.TextBoxFor(m => m.Name)</td>
+        </tr>
+        <tr>
+            <td>주민번호(*)</td>
+            <td>@Html.TextBoxFor(m => m.Birthday)-</td>
+            <td>@Html.TextBoxFor(m => m.Sex)</td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>@Html.TextBoxFor(m => m.Address)</td>
+        </tr>
+        <tr>
+            <td>전화번호</td>
+            <td>@Html.TextBoxFor(m => m.Phone)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="가입신청" /></td>
+            <td>
+                <input type="button" value="취소" onclick="location.href='@Url.Action("Home", "Home")'" />
+            </td>
+        </tr>
+}
+    </table>
+
+</body>
+</html>

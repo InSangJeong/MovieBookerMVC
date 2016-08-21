@@ -7,22 +7,11 @@
     <title></title>
 </head>
 <body>
-    @using (Html.BeginForm("MovieList", "Movie"))
-    {
-        <input type="submit" value="상영 영화 관리" />
-    }
-    @using (Html.BeginForm("TheaterList", "Theater"))
-    {
-        <input type="submit" value="상영관 관리" />
-    }
-    @using (Html.BeginForm("MemberList", "Member"))
-    {
-        <input type="submit" value="회원 관리" />
-    }
-    @using (Html.BeginForm("Logout", "Home"))
-    {
-        <input type="submit" value="로그 아웃" />
-    }
+    <input type="button" value="상영 영화 관리" onclick="location.href='@Url.Action("MovieList", "Movie")'" />
+    <input type="button" value="상영관 관리" onclick="location.href='@Url.Action("TheaterList", "Theater")'" />
+    <input type="button" value="회원 관리" onclick="location.href='@Url.Action("MemberList", "Member")'" />
+    <input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" />
+   
 
 </body>
 </html>

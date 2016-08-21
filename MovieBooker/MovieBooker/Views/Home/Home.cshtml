@@ -13,19 +13,33 @@
 </head>
 <body>
     <div style="height: 273px">
-      
-        @using (Html.BeginForm("Home", "Home"))
-        {
-            @Html.TextBoxFor(m => m.ID)<br />
-            @Html.PasswordFor(m => m.Pass)<br />
-            <input type="submit" value="로그인" />
-        }
-        @using (Html.BeginForm("NewMember", "Home"))
-        {
-            <input type="submit" value="회원가입" />
-        }
+        <table>
+            @using (Html.BeginForm("Home", "Home"))
+            {
+                <tr>
+                    <td> ID : </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ID)
+                    </td>
+                </tr>
+                    <tr>
+                        <td> Pass : </td>
+                        <td>
+                            @Html.PasswordFor(m => m.Pass)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="로그인" />
+                        </td>
+                        <td>
+                            <input type="button" value="회원가입" onclick="location.href='@Url.Action("NewMember", "Member")'" />
+                        </td>
+                    </tr>
+            }
+        </table>
     </div>
 
-</body>
+  </body>
 </html>
 

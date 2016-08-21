@@ -18,6 +18,7 @@ namespace MovieBooker.Models
         public String Address { get; set; }
         public String Phone { get; set; }
 
+        public String CheckPass { get; set; }
         static public List<Member> SqlDataReaderToMember(SqlDataReader Reader)
         {
             List<Member> Members = new List<Member>();
@@ -61,6 +62,14 @@ namespace MovieBooker.Models
             members.Add("연락처");
 
             return members;
+        }
+
+        static public bool DoCheckPass(Member member)
+        {
+            if (member.Pass == member.CheckPass)
+                return true;
+            else
+                return false;
         }
     }
 

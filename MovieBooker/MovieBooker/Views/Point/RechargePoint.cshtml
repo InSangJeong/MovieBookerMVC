@@ -1,0 +1,94 @@
+﻿@model MovieBooker.Models.Point
+@{
+        ViewBag.Title = "RechargePoint";
+}
+
+<h2>포인트 충전/사용/환불 내역입니다.</h2>
+
+<html>
+<head>
+    <title></title>
+    <script language="javascript">
+        function MakePointListTable()
+        {
+            var PointList = @Html.Raw(Json.Encode(ViewBag.Points));
+
+            var table = document.getElementById("PointListTable");
+            var i = 0;
+          
+            var tr = document.createElement("tr");
+            for(i = 0 ; i < 4 ; i++)
+            {
+                var td = document.createElement("td");
+                switch(i)
+                {
+                    case 0:
+                        td.innerText ="발생 일자";
+                        break;
+                    case 1:
+                        td.innerText ="사용 금액";
+                        break;
+                    case 2:
+                        td.innerText ="충전 금액";
+                        break;
+                    case 3:
+                        td.innerText ="잔여 금액";
+                        break;
+                }
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+            i = 0;
+            
+            for(var point in PointList)
+            {
+                var tr = document.createElement("tr");
+                tr.setAttribute("bgColor", "#FFFFCC"); // 배경색
+                for(var j = 0; j < 4; j++)
+                {
+                    var td = document.createElement("td");
+                    switch(j)
+                    {
+                        case 0:
+                            td.innerText = PointList[i].Occuredatetime;
+                            break;
+                        case 1:
+                            td.innerText = PointList[i].Usedvalue;
+                            break;
+                        case 2:
+                            td.innerText = PointList[i].Rechargedvalue;
+                            break;
+                        case 3:
+                            td.innerText = PointList[i].Remainvalue;
+                            break;
+                    }
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+                i++;
+            }
+        }
+    </script>
+</head>
+<body>
+    <table id="PointListTable">
+
+    </table>
+    <script type="text/javascript">
+        MakePointListTable();
+    </script>
+    <table>
+        <tr>
+@using (Html.BeginForm("RechargePoint", "Point"))
+{
+    <td>@Html.TextBoxFor(m => m.Rechargedvalue)</td>
+            <td>원    </td>
+            <td>
+                <input type="submit" value="충전 하기" />
+            </td>
+}
+            <td><input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginMember", "Home")'" /></td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -43,7 +43,6 @@ namespace MovieBooker.Controllers
                     {
                         return RedirectToAction("loginMember", "Home");
                     }
-
                 }
             }
             return View();
@@ -63,8 +62,9 @@ namespace MovieBooker.Controllers
         public ActionResult loginAdmin()
         {
             if(Session["MEMBER"] == null)
+            {
                 return RedirectToAction("Home", "Home");
-
+            }
 
             return View();
         }
@@ -88,10 +88,6 @@ namespace MovieBooker.Controllers
 
 
 
-
-    
-
-        [HttpPost]
         public ActionResult Logout()
         {
             Session.Clear();

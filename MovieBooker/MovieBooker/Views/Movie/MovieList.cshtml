@@ -68,10 +68,7 @@
                 }
             </th>
             <th>
-                @using (Html.BeginForm("loginAdmin", "Home"))
-            {
-                    <input type="submit" value="돌아가기" />
-                }
+                <input type="button" value="돌아가기" onclick="location.href='@Url.Action("loginAdmin", "Home")'" />
             </th>
         </tr>
     </table>

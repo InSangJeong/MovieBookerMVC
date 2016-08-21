@@ -195,12 +195,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\TheaterController.cs" />
     <Compile Include="DAL\Member_DAL.cs" />
+    <Compile Include="DAL\Movieschedule_DAL.cs" />
     <Compile Include="DAL\Movie_DAL.cs" />
+    <Compile Include="DAL\Point_DAL.cs" />
+    <Compile Include="DAL\Seat_DAL.cs" />
     <Compile Include="DAL\Theater_DAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,14 +248,14 @@
     <Content Include="Views\Member\NewMember.cshtml" />
     <Content Include="Views\Home\LoginMember.cshtml" />
     <Content Include="Views\Movie\MovieList.cshtml" />
-    <Content Include="Views\Home\Booking.cshtml" />
-    <Content Include="Views\Home\BookingList.cshtml" />
+    <Content Include="Views\Book\Booking.cshtml" />
+    <Content Include="Views\Book\BookingList.cshtml" />
     <Content Include="Views\Member\MemberList.cshtml" />
     <Content Include="Views\Movie\NewMovie.cshtml" />
-    <Content Include="Views\Home\RechargePoint.cshtml" />
-    <Content Include="Views\Home\SearchAbleTheater.cshtml" />
+    <Content Include="Views\Point\RechargePoint.cshtml" />
     <Content Include="Views\Theater\TheaterList.cshtml" />
-    <Content Include="Views\Theater\SelectTheater.cshtml" />
+    <Content Include="Views\Movie\SelectTheater.cshtml" />
+    <Content Include="Views\Home\Logout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

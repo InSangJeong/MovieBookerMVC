@@ -49,5 +49,11 @@ namespace MovieBooker.Models
 
             return tmp.ToArray();
         }
+        static public string yyyyMMddHHmmss2DatetimeString(string yyyyMMddHHmmss)
+        {
+            DateTime sdate = DateTime.ParseExact(yyyyMMddHHmmss, "yyyyMMddHHmmss", null);
+            return sdate.ToString("yyyy-MM-dd HH:mm:ss");
+
+        }
     }
 }

@@ -6,3 +6,34 @@
 
 <h2>LoginMember</h2>
 
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td rowspan="5"><input type="image" id="image1" /></td>
+            <td rowspan="5"><input type="image" id="image2" /></td>
+            <td rowspan="5"><input type="image" id="image3" /></td>
+            <td >
+                안녕하세요.
+            </td>
+        </tr>
+        <tr>
+            <td><input type="button" value="포인트 충전" onclick="location.href='@Url.Action("RechargePoint", "Point")'" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="예매하기" onclick="location.href='@Url.Action("Booking", "Book")'" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="예매내역 확인" onclick="location.href='@Url.Action("BookingList", "Book")'" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" /></td>
+        </tr>
+
+    </table>
+</body>
+</html>
+

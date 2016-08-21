@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MovieBooker.Models.Theater>
+@{
+    ViewBag.Title = "SelectTheater";
+}
+
+<h2>상영관 선택</h2>
+<html>
+<head>
+    <title>상영관 선택</title>
+
+    <script language="javascript">
+
+        function sendTheaterID(TheaterID)
+        {
+            var ptbox = parent.opener.document.getElementById("TXT_theaterID");
+            ptbox.value = TheaterID;
+            window.close();
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>테이블 ID</th>
+            <th>선택</th>
+        </tr>
+        @foreach (var theater in Model)
+        {
+            <tr>
+                <td>@theater.TheaterID</td>
+                <td>
+                    <input type="button"  onclick="sendTheaterID(@theater.TheaterID)" value="선택" />
+                </td>
+            </tr>
+            
+        }
+
+    </table>
+</body>
+</html>
