@@ -1,7 +1,47 @@
-﻿
+﻿@model MovieBooker.Models.BookingSupporter
 @{
     ViewBag.Title = "Booking";
 }
 
 <h2>Booking</h2>
+<html>
+<head>
+    <title>
+    </title>
+</head>
+<body>
+    <table>
+        <tr>
+            @using (Html.BeginForm("Booking", "Book", FormMethod.Post))
+            {
+                <td>
+                    영화명: @Html.DropDownListFor(m => m.SelectedMovieID,
+                Model.Movies.Select(c => new SelectListItem { Text = c.Moviename, Value = c.MovieID }), new {onchange = "submit()"})
+                </td>
+            }
+            @if(Model.SelectedMovieID != null)
+            {
+                //TODO 내가 이전에 선택했던 영화를 유지하도록 설정.
+            }
+            <td> 상영날짜 : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount)</td>
+            <td> 상영관   : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount)</td>
+            <td> 예약인원 : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount) 명</td>
+        </tr>
+        <tr>
+            <td colspan="3" rowspan="2"> 좌석 배치표</td>
+            <td>
+                @using (Html.BeginForm("Booking", "Book"))
+                {
+                    <input type="submit" value="예약하기" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginMember", "Home")'" />
+            </td>
+        </tr>
+    </table>
 
+</body>
+</html>

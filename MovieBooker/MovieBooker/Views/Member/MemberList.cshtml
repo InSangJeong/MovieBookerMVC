@@ -42,12 +42,6 @@
     <table>
         <tr>
             <th>
-                @using (Html.BeginForm("MemberList", "Member"))
-            {
-                    <input type="submit" value="회원 삭제" />
-                }
-            </th>
-            <th>
                 <input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginAdmin", "Home")'" />
        
             </th>

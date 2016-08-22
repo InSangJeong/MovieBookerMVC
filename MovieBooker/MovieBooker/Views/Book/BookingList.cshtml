@@ -1,7 +1,54 @@
-﻿
+﻿@model MovieBooker.Models.Bookinginfo
 @{
     ViewBag.Title = "BookingList";
 }
 
-<h2>BookingList</h2>
+<h2>고객님의 예매 내역입니다.</h2>
 
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>상영 일자</th>
+            <th>영화 제목</th>
+            <th>상영관</th>
+            <th>좌석 열</th>
+            <th>좌석 번호</th>
+            <th>관람 등급</th>
+            <th></th>
+        </tr>
+        @foreach (MovieBooker.Models.Bookinginfo book in ViewBag.Bookings)
+        {
+            <tr>
+                <td>@book.Playdatetime</td>
+                <td>@book.Moviename</td>
+                <td>@book.TheaterID</td>
+                <td>@book.Seatrow</td>
+                <td>@book.Seatnumber</td>
+                <td>@book.Viewingclass</td>
+                <td>
+                    @using (Html.BeginForm("RemoveBooking", "Book"))
+                    {
+                        @Html.Hidden("bookinfo.ID", book.ID)
+                        @Html.Hidden("bookinfo.MovieID", book.MovieID)
+                        @Html.Hidden("bookinfo.TheaterID", book.TheaterID)
+                        @Html.Hidden("bookinfo.Playdatetime", book.Playdatetime)
+                        @Html.Hidden("bookinfo.Seatrow", book.Seatrow)
+                        @Html.Hidden("bookinfo.Seatnumber", book.Seatnumber)
+                        @Html.Hidden("bookinfo.Moviename", book.Moviename)
+                        @Html.Hidden("bookinfo.Bookedcount", book.Bookedcount)
+                        @Html.Hidden("bookinfo.Viewingclass", book.Viewingclass)
+                        <input type="submit" value="제거" />
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td><input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginMember", "Home")'" /></td>
+        </tr>
+    </table>
+</body>
+</html>

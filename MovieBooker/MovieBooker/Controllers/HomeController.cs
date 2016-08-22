@@ -86,8 +86,6 @@ namespace MovieBooker.Controllers
         }
 
 
-
-
         public ActionResult Logout()
         {
             Session.Clear();
