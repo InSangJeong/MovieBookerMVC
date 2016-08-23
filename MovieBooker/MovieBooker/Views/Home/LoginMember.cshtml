@@ -10,19 +10,27 @@
 <head>
     <title></title>
     <script language="javascript">
-        function SetMoviePoster(number, path)
+        function SetMoviePoster(number)
         {
-            alert(number + "  "+ path)
-            document.getElementById("image" + number).src = "/Images/"+path;
+            var MovieList = @Html.Raw(Json.Encode(ViewBag.ViewMovie));
+            var i = 0;
+            for(var movie in MovieList)
+            {
+                if(i == number)
+                {
+                    document.getElementById("image" + number).src = "/Images/"+MovieList[i].Movieposter;
+                }
+                i++;
+            }
         }
     </script>
 </head>
 <body>
     <table border="1">
         <tr>
+            <td rowspan="5"><input type="image" id="image0" /></td>
             <td rowspan="5"><input type="image" id="image1" /></td>
             <td rowspan="5"><input type="image" id="image2" /></td>
-            <td rowspan="5"><input type="image" id="image3" /></td>
             <td >
                 안녕하세요.
             </td>
@@ -40,14 +48,17 @@
             <td><input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" /></td>
         </tr>
     </table>
-    @for (int i = 1; i <= ViewBag.ViewMovie.Count; i++)
+   
+
+    @for (int i = 0; i <= Enumerable.Count(ViewBag.ViewMovie); i++)
     {
-        if (i == 4)
+        if (i == 3)
         {
             break;
         }
+        @*<input type="text" value=@ViewBag.ViewMovie[i].Movieposter />*@
         <script type="text/javascript">
-            SetMoviePoster(i, movie.Movieposter)
+            SetMoviePoster(@i)
         </script>
 
     }

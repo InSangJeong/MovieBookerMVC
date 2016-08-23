@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -8,12 +9,24 @@ namespace MovieBooker.Models
 {
     public class Member
     {
+        [Required]
         public String ID { get; set; }
+        [Required]
         public String Pass { get; set; }
+        [Required]
         public String Name { get; set; }
+        [Required]
+        [Range(1,150)]
         public String Age { get; set; }
+        
+        [Required]
+        [StringLength(6, MinimumLength = 6)]
         public String Birthday { get; set; }
+        [Required]
+        [Range(1, 4)]
+        [StringLength(1, MinimumLength = 1)]
         public String Sex { get; set; }
+
         public String Point { get; set; }
         public String Address { get; set; }
         public String Phone { get; set; }
