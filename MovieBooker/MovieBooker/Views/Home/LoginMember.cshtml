@@ -1,4 +1,4 @@
-﻿@model MovieBooker.Models.Member
+﻿@model MovieBooker.Models.Movie
 
 @{
     ViewBag.Title = "LoginMember";
@@ -9,6 +9,13 @@
 <html>
 <head>
     <title></title>
+    <script language="javascript">
+        function SetMoviePoster(number, path)
+        {
+            alert(number + "  "+ path)
+            document.getElementById("image" + number).src = "/Images/"+path;
+        }
+    </script>
 </head>
 <body>
     <table border="1">
@@ -32,8 +39,20 @@
         <tr>
             <td><input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" /></td>
         </tr>
-
     </table>
+    @for (int i = 1; i <= ViewBag.ViewMovie.Count; i++)
+    {
+        if (i == 4)
+        {
+            break;
+        }
+        <script type="text/javascript">
+            SetMoviePoster(i, movie.Movieposter)
+        </script>
+
+    }
+        
+
 </body>
 </html>
 

@@ -11,7 +11,9 @@ namespace MovieBooker.Models
         public string TheaterID { get; set; }
         public string Seatrow { get; set; }
         public string Seatnumber { get; set; }
-        public string Isbooked { get; set; }
+        public bool Isbooked { get; set; }
+        //예약 화면에서 사용자가 예약을 시도했는지 확인하는 필드입니다.
+        public bool IsNewbooked { get; set; }
         public string Playtime { get; set; }
 
 
@@ -26,7 +28,8 @@ namespace MovieBooker.Models
                     seat.TheaterID = Reader["TheaterID"].ToString().Trim();
                     seat.Seatrow = Reader["Seatrow"].ToString().Trim();
                     seat.Seatnumber = Reader["Seatnumber"].ToString().Trim();
-                    seat.Isbooked = Reader["Isbooked"].ToString().Trim();
+                    seat.Isbooked = Convert.ToBoolean(Reader["Isbooked"]);
+                    seat.IsNewbooked = Convert.ToBoolean(Reader["Isbooked"]);
 
                     seat.Playtime = Reader["Playtime"].ToString();
 

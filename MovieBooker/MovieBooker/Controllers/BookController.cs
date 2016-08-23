@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MovieBooker.Models;
 using MovieBooker.DAL;
+using System.Reflection;
 
 namespace MovieBooker.Controllers
 {
@@ -41,7 +42,6 @@ namespace MovieBooker.Controllers
             //       Seat에서 예약상태 변경
             //       예약 내용 제거
             //       환불
-            int refundCount = 0;
             string RefundID = "";
             string Command = "";
             List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
@@ -104,19 +104,19 @@ namespace MovieBooker.Controllers
             #endregion
 
             #region 환불
-                Command = " WHERE ID=@id ORDER BY Occuredatetime DESC";
-                Params.Add(new Tuple<string, object>("@id", RefundID));
-                List<Point> points = Point_DAL.Select_Points(Command, Params);
-                Params.Clear();
+            Command = " WHERE ID=@id ORDER BY Occuredatetime DESC";
+            Params.Add(new Tuple<string, object>("@id", RefundID));
+            List<Point> points = Point_DAL.Select_Points(Command, Params);
+            Params.Clear();
 
-                Command = "Insert into Point(ID, Occuredatetime, Usedvalue, Rechargedvalue, Remainvalue)" +
-                            "values(@ID, @Occuredatetime, @Usedvalue, @Rechargedvalue, @Remainvalue)";
-                Params.Add(new Tuple<string, object>("@ID", RefundID));
-                Params.Add(new Tuple<string, object>("@Occuredatetime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
-                Params.Add(new Tuple<string, object>("@Usedvalue", 0));
-                Params.Add(new Tuple<string, object>("@Rechargedvalue", 0));
-                Params.Add(new Tuple<string, object>("@Remainvalue", Convert.ToInt32(points[0].Remainvalue) + (Constant.MoviePrice)));
-                Point_DAL.DoCommand(Command, Params);
+            Command = "Insert into Point(ID, Occuredatetime, Usedvalue, Rechargedvalue, Remainvalue)" +
+                        "values(@ID, @Occuredatetime, @Usedvalue, @Rechargedvalue, @Remainvalue)";
+            Params.Add(new Tuple<string, object>("@ID", RefundID));
+            Params.Add(new Tuple<string, object>("@Occuredatetime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            Params.Add(new Tuple<string, object>("@Usedvalue", 0));
+            Params.Add(new Tuple<string, object>("@Rechargedvalue", 0));
+            Params.Add(new Tuple<string, object>("@Remainvalue", Convert.ToInt32(points[0].Remainvalue) + (Constant.MoviePrice)));
+            Point_DAL.DoCommand(Command, Params);
             #endregion
 
             return RedirectToAction("BookingList", "Book");
@@ -129,17 +129,255 @@ namespace MovieBooker.Controllers
             List<Movie> Movies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
             BookingSupporter ds = new BookingSupporter();
             ds.Movies = Movies;
+
+            Movie NonSelectedValue = new Models.Movie();
+            NonSelectedValue.MovieID = "None";
+            NonSelectedValue.Moviename = "선택하세요.";
+            ds.Movies.Add(NonSelectedValue);
+
             return View(ds);
         }
+
+
         [HttpPost]
+        [MultipleButton(Name = "action", Argument = "DoBook")]
+        public ActionResult DoBook(BookingSupporter inputData)
+        {
+            //TODO : 예약 객체 생성시 점검사항들 
+            //   기본. 예매하는 당사자의 로그인정보를 확인한다.
+            //      0. 예약 인원수를 찾아내고 해당좌석을 리스트로 만듭니다.
+            //      1. 포인트가 사람수만큼 결제가능한지 확인합니다.
+            //      2. 예약하는동안 선택한 좌석(들)이 예매가 되었는지 확인.
+            //      3. 관람등급과 고객나이 확인
+            //      4. 예매객체 생성
+            //      5. 포인트 사용내역 객체 생성
+            //      6. Seat의 예약상태를 True로 변경한다.
+            //      7. 예약할경우 MovieSchedule의 RemainSeat값도 줄여줘야함.
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
+            Member LoginedMember = Session["MEMBER"] as Member;
+
+            string Command = "";
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
+            List<Movie> SelcetedMovieObject = null;
+            int LastlyRemaindPoint = 0;
+            List<Seat> TryBookSeats = new List<Seat>();
+            #region 0
+            foreach(Seat seat in inputData.Seats)
+            {
+                if(seat.IsNewbooked)
+                {
+                    TryBookSeats.Add(seat);
+                }
+            }
+            if(TryBookSeats.Count == 0)
+            {
+                //에러
+                return View();
+            }
+            #endregion
+            #region 1
+            Command = " WHERE ID=@id ORDER BY Occuredatetime DESC";
+            Params.Add(new Tuple<string, object>("@id", LoginedMember.ID));
+
+            List<Point> points = Point_DAL.Select_Points(Command, Params);
+            if (points == null || points.Count == 0)
+            {
+                return View();
+            }
+            int totalPrice = TryBookSeats.Count * Constant.MoviePrice;
+            if (Convert.ToInt32(points[0].Remainvalue) < totalPrice)
+            {
+                return View();
+            }
+            LastlyRemaindPoint = Convert.ToInt32(points[0].Remainvalue);
+            Params.Clear();
+            #endregion
+            #region 2
+            Command = " Where " +
+              "TheaterID = @TheaterID AND Playtime = @Playtime AND Seatrow = @Seatrow AND Seatnumber = @Seatnumber";
+            foreach (Seat TryBookingSeat in TryBookSeats)
+            {
+                Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater));
+                Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+                Params.Add(new Tuple<string, object>("@Seatrow", TryBookingSeat.Seatrow));
+                Params.Add(new Tuple<string, object>("@Seatnumber", TryBookingSeat.Seatnumber));
+                List<Seat> seat = Seat_DAL.Select_Seats(Command, Params);
+                if (seat == null || seat.Count == 0 || seat[0].Isbooked)
+                {
+                    return View();
+                }
+                Params.Clear();
+            }
+            #endregion
+            #region 3
+            Command = " Where MovieID = @MovieID";
+            Params.Add(new Tuple<string, object>("@MovieId", inputData.SelectedMovieID));
+            SelcetedMovieObject = Movie_DAL.Select_Movie(Command, Params);
+            if (SelcetedMovieObject == null || SelcetedMovieObject.Count == 0)
+            {
+                return View();
+            }
+            if (Convert.ToInt32(LoginedMember.Age) < Convert.ToInt32(SelcetedMovieObject[0].Viewingclass))
+            {
+                return View();
+            }
+            Params.Clear();
+            #endregion
+            #region 4
+            Command = "insert into Booking(ID, MovieID, TheaterID, Playdatetime, Seatrow, Seatnumber, Moviename, Bookedcount, Viewingclass)" +
+                    "values(@ID, @MovieID, @TheaterID, @Playdatetime, @Seatrow, @Seatnumber, @Moviename, @Bookedcount, @Viewingclass)";
+            foreach (Seat TryBookingSeat in TryBookSeats)
+            {
+                Params.Add(new Tuple<string, object>("@ID", LoginedMember.ID.Trim()));
+                Params.Add(new Tuple<string, object>("@MovieID", inputData.SelectedMovieID.Trim()));
+                Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater.Trim()));
+                Params.Add(new Tuple<string, object>("@Playdatetime", inputData.SelectedPlaytime));
+                Params.Add(new Tuple<string, object>("@Seatrow", TryBookingSeat.Seatrow));
+                Params.Add(new Tuple<string, object>("@Seatnumber", TryBookingSeat.Seatnumber));
+                Params.Add(new Tuple<string, object>("@Moviename", SelcetedMovieObject[0].Moviename));
+                Params.Add(new Tuple<string, object>("@Bookedcount", TryBookSeats.Count));
+                Params.Add(new Tuple<string, object>("@Viewingclass", SelcetedMovieObject[0].Viewingclass));
+                if (!Bookinginfo_DAL.DoCommand(Command, Params))
+                {
+                    return View();
+                }
+                Params.Clear();
+            }
+            #endregion
+            #region 5
+            Command = "insert into Point(ID, Occuredatetime, Usedvalue, Rechargedvalue, Remainvalue)" +
+                    "values(@ID, @Occuredatetime, @Usedvalue, @Rechargedvalue, @Remainvalue)";
+            Params.Add(new Tuple<string, object>("@ID", LoginedMember.ID));
+            Params.Add(new Tuple<string, object>("@Occuredatetime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            Params.Add(new Tuple<string, object>("@Usedvalue", TryBookSeats.Count * Constant.MoviePrice));
+            Params.Add(new Tuple<string, object>("@Rechargedvalue", 0));
+            Params.Add(new Tuple<string, object>("@Remainvalue", LastlyRemaindPoint - TryBookSeats.Count * Constant.MoviePrice));
+            if (!Point_DAL.DoCommand(Command, Params))
+            {
+                return View();
+            }
+            Params.Clear();
+            #endregion
+            #region 6
+            Command = Command = "Update Seat Set Isbooked = @Isbooked " +
+                "Where TheaterID = @TheaterID AND Seatrow = @Seatrow AND Seatnumber = @Seatnumber AND Playtime = @Playtime";
+            foreach (Seat TryBookingSeat in TryBookSeats)
+            {
+                Params.Add(new Tuple<string, object>("@Isbooked", "True"));
+                Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater));
+                Params.Add(new Tuple<string, object>("@Seatrow", TryBookingSeat.Seatrow));
+                Params.Add(new Tuple<string, object>("@Seatnumber", TryBookingSeat.Seatnumber));
+                Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+                if (!Seat_DAL.DoCommand(Command, Params))
+                {
+                    return View();
+                }
+                Params.Clear();
+            }
+            #endregion
+            #region 7
+            //일단 기존남은 좌석 데이터를 가져와야함.
+            int RemainSeatCount = 0;
+            Command = "Where MovieID = @MovieId AND TheaterID = @TheaterID AND Playtime = @Playtime";
+            Params.Add(new Tuple<string, object>("@MovieId", inputData.SelectedMovieID));
+            Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater));
+            Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+            List<Movieschedule> movieschedule = Movieschedule_DAL.Select_MovieSC(Command, Params);
+            if (movieschedule == null || movieschedule.Count != 1)
+                return View();
+            RemainSeatCount = Convert.ToInt32(movieschedule[0].Seatremained);
+            if (RemainSeatCount == 0)
+                return View();
+
+            Params.Clear();
+            Command = "Update Movieschedule Set Seatremained = @Seatremained " +
+                "Where MovieID = @MovieId AND TheaterID = @TheaterID AND Playtime = @Playtime";
+            Params.Add(new Tuple<string, object>("@Seatremained", RemainSeatCount - TryBookSeats.Count));
+            Params.Add(new Tuple<string, object>("@MovieId", inputData.SelectedMovieID));
+            Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater));
+            Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+            if (!Movieschedule_DAL.DoCommand(Command, Params))
+            {
+                return View();
+            }
+            #endregion
+            return RedirectToAction("BookingList", "Book");
+        }
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "Booking")]
         public ActionResult Booking(BookingSupporter inputData)
         {
-            if(inputData.SelectedMovieID != null)
+            //사용자가 영화예매에 관련된 데이터들을 입력하였을때
+            if (inputData.SelectedMovieID != null || inputData.SelectedMovieID != "None")
             {
+                //사용자가 영화를 선택하였기 때문에 상영날짜데이터를 추가하여 뷰에 도시한다.
+                List<Movie> Movies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
+                inputData.Movies = Movies;
 
+                string where = " Where MovieID=@MovieID";
+                List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
+                Params.Add(new Tuple<string, object>("@MovieID", inputData.SelectedMovieID));
+                List<Movieschedule> MovieSC = Movieschedule_DAL.Select_MovieSC(where, Params);
+                inputData.movieSchedules = MovieSC;
+
+                if (!string.IsNullOrEmpty(inputData.SelectedPlaytime))
+                {
+                    //날짜 선택했으니 날짜에 맞는 상영관만 간추려서 보낸다.
+                    where = " Where @MovieID = MovieID AND @Playtime = Playtime";
+                    Params.Clear();
+                    Params.Add(new Tuple<string, object>("@MovieID", inputData.SelectedMovieID));
+                    Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+                    inputData.SelectedmovieSchedules = Movieschedule_DAL.Select_MovieSC(where, Params);
+
+                    if (!string.IsNullOrEmpty(inputData.SelectedTheater))
+                    {
+                        //영화명, 상영날짜, 상영관을 모두 선택하였으므로 상영관 데이터를 보내 값을 checkbox를 유지하도록한다.
+                        where = " Where @TheaterID = TheaterID AND @Playtime = Playtime Order by Seatrow, Seatnumber";
+                        Params.Clear();
+                        Params.Add(new Tuple<string, object>("@TheaterID", inputData.SelectedTheater));
+                        Params.Add(new Tuple<string, object>("@Playtime", inputData.SelectedPlaytime));
+                        inputData.Seats = Seat_DAL.Select_Seats(where, Params);
+                    }
+                    else
+                    {
+                        Movieschedule NonSelectedValue = new Models.Movieschedule();
+                        NonSelectedValue.RemaindSeatMent = "선택하세요.";
+                        NonSelectedValue.TheaterID = "None";
+                        inputData.SelectedmovieSchedules.Add(NonSelectedValue);
+                    }
+                }
+                else
+                {
+                    Movieschedule NonSelectedValue = new Models.Movieschedule();
+                    NonSelectedValue.Playtime = "선택하세요.";
+                    inputData.movieSchedules.Add(NonSelectedValue);
+                }
                 return View(inputData);
             }
-            return RedirectToAction("Booking", "Book");
+            return View();
         }
+    }
+
+}
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+public class MultipleButtonAttribute : ActionNameSelectorAttribute
+{
+    public string Name { get; set; }
+    public string Argument { get; set; }
+
+    public override bool IsValidName(ControllerContext controllerContext, string actionName, MethodInfo methodInfo)
+    {
+        var isValidName = false;
+        var keyValue = string.Format("{0}:{1}", Name, Argument);
+        var value = controllerContext.Controller.ValueProvider.GetValue(keyValue);
+
+        if (value != null)
+        {
+            controllerContext.Controller.ControllerContext.RouteData.Values[Name] = Argument;
+            isValidName = true;
+        }
+
+        return isValidName;
     }
 }

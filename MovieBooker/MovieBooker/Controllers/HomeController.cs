@@ -77,6 +77,8 @@ namespace MovieBooker.Controllers
 
         public ActionResult loginMember()
         {
+            List<Movie> Movies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
+            ViewBag.ViewMovie = Movies;
             return View();
         }
         [HttpPost]

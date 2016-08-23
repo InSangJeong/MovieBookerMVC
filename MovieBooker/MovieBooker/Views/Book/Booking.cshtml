@@ -8,40 +8,200 @@
 <head>
     <title>
     </title>
+    <script language="javascript">
+        function SetMovieNameInDropBox(MovieID) {
+            var objSelect = document.getElementById("DropMovieName");
+            SetSelectObject(objSelect, MovieID);
+        }
+        function SetPlaytimeInDropBox(Playtime) {
+            var objSelect = document.getElementById("DropPlayTime");
+            SetSelectObject(objSelect, Playtime);
+        }
+        function SetTheaterInDropBox(Playtime) {
+            var objSelect = document.getElementById("DropTheater");
+            SetSelectObject(objSelect, Playtime);
+        }
+        function SetSelectObject(objSelect, Value)
+        {
+            for (var i = 0; i < objSelect.options.length; i++) {
+                if (objSelect.options[i].value == Value) {
+                    objSelect.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+        function SetAbleStateSeat(MaxSeatRow, MaxSeatNumber)
+        {
+            var Rowvalue = document.getElementById("myRow").value;
+            var Numbervalue = document.getElementById("myNumber").value;
+            Rowvalue = AlphabetToNumber(Rowvalue);
+            for(i = 0 ; i < Rowvalue ; i++)
+            {
+                for(j = 1 ; j <= Numbervalue ; j++)
+                {
+                    if (document.getElementById(NumberToAlphabet(i) + "_" + j).checked)
+                        document.getElementById(NumberToAlphabet(i) + "_" + j).disabled = true;
+                }
+            }
+            //document.getElementById("check").disabled = false;
+        }
+        function AlphabetToNumber(Alphabet)
+        {
+            return Alphabet.charCodeAt(0) - 65;
+        }
+        function NumberToAlphabet(Number) 
+        {
+            return String.fromCharCode(65 + Number);
+        }
+        function Refresh()
+        {
+            document.getElementById("btn_refresh").click();
+        }
+    </script>
 </head>
 <body>
-    <table>
-        <tr>
-            @using (Html.BeginForm("Booking", "Book", FormMethod.Post))
-            {
+    @*@using (Html.BeginForm("Booking", "Book", FormMethod.Post))*@
+        @using (Html.BeginForm("Action", "Book", FormMethod.Post))
+        {
+        <table>
+            <tr>
                 <td>
-                    영화명: @Html.DropDownListFor(m => m.SelectedMovieID,
-                Model.Movies.Select(c => new SelectListItem { Text = c.Moviename, Value = c.MovieID }), new {onchange = "submit()"})
+                    영화명 : @Html.DropDownListFor(m => m.SelectedMovieID,
+           Model.Movies.Select(c => new SelectListItem { Text = c.Moviename, Value = c.MovieID }),
+           new {  onchange ="Refresh()",  id = "DropMovieName" })
                 </td>
-            }
-            @if(Model.SelectedMovieID != null)
-            {
-                //TODO 내가 이전에 선택했던 영화를 유지하도록 설정.
-            }
-            <td> 상영날짜 : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount)</td>
-            <td> 상영관   : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount)</td>
-            <td> 예약인원 : @Html.TextBoxFor(m => m.SelectedTheater.Seatcount) 명</td>
-        </tr>
-        <tr>
-            <td colspan="3" rowspan="2"> 좌석 배치표</td>
-            <td>
-                @using (Html.BeginForm("Booking", "Book"))
+                @* 사용자가 영화명을 선택한 경우에 상영날짜를 생성함. *@
+                @if (Model.SelectedMovieID != null && Model.SelectedMovieID != "None")
                 {
-                    <input type="submit" value="예약하기" />
+                    
+                    <td>
+                        상영날짜 : @Html.DropDownListFor(m => m.SelectedPlaytime,
+          Model.movieSchedules.Select(c => new SelectListItem { Text = c.Playtime, Value = c.Playtime }),
+          new { onchange = "Refresh()", id = "DropPlayTime" })
+                    </td>
                 }
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginMember", "Home")'" />
-            </td>
-        </tr>
-    </table>
+                else
+                {
+                    <td>
+                        상영날짜 :
+                    </td>
+                }
+                @* 사용자가 상영시간을 선택하였을 경우 값을 셋팅. *@
+                @if (Model.SelectedPlaytime != null && Model.SelectedPlaytime != "")
+                {
+                    <td>
+                        상영관 : @Html.DropDownListFor(m => m.SelectedTheater,
+           Model.SelectedmovieSchedules.Select(c => new SelectListItem { Text = c.RemaindSeatMent, Value = c.TheaterID }),
+           new { onchange = "Refresh()", id = "DropTheater" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        상영관 :
+                    </td>
+                }
+
+                <td> @*예약인원 : @Html.TextBoxFor(m => m.SelectedTheater) 명*@</td>
+
+            </tr>
+            <tr>
+                @* 사용자가 모든 값을 입력하였을경우 상영관정보를 입력한다. *@
+                <td colspan="3" rowspan="2">
+                    <div style="display: none;">@Html.EditorFor(model => model.Seats)</div>
+                 
+                    @if (Model.SelectedMovieID != null && Model.SelectedMovieID != "None" && Model.SelectedPlaytime != null && Model.SelectedPlaytime != "" && Model.SelectedTheater != null && Model.SelectedTheater != "")
+                    {
+                        @* 상영관 좌석생성 *@
+                        <table id="SeatTable">
+                            @for (int i = 65, k = 0; i <= Convert.ToInt32(Convert.ToChar(Model.Seats.Last().Seatrow)); i++)
+                            {
+                                <tr>
+                                    @for (int j = 1; j <= Convert.ToInt32(Model.Seats.Last().Seatnumber); j++)
+                                    {
+                                        MovieBooker.Models.Seat seat = Model.Seats.FindLast(m => m.Seatrow == Convert.ToString(Convert.ToChar(i)) && Convert.ToInt32(m.Seatnumber) == j);
+                                        <td>
+                                            @*@Html.CheckBoxFor(m => m.Seats.FindLast(n => n.Seatnumber == seat.Seatnumber && n.Seatrow == seat.Seatrow).IsNewbooked,
+                                            new { id = seat.Seatrow + "_" + seat.Seatnumber , @checked = "checked" })*@
+                                            @Html.CheckBoxFor(m => Model.Seats[k].IsNewbooked,
+                                            new { id = seat.Seatrow + "_" + seat.Seatnumber })
+                                            <br />
+                                            @Html.TextBox("_",seat.Seatrow + "_" + seat.Seatnumber)
+                                            @Html.HiddenFor(m => Model.Seats[k].Isbooked)
+                                            @Html.HiddenFor(m => Model.Seats[k].Playtime)
+                                            @Html.HiddenFor(m => Model.Seats[k].Seatnumber)
+                                            @Html.HiddenFor(m => Model.Seats[k].Seatrow)
+                                            @Html.HiddenFor(m => Model.Seats[k].TheaterID)
+                                        </td>
+                                        k++;
+                                    }
+                                </tr>
+                            }
+                        </table>
+
+                        @Html.Hidden("Row", Model.Seats.Last().Seatrow, new { id = "myRow" });
+                        @Html.Hidden("Number", Model.Seats.Last().Seatnumber, new { id = "myNumber" });
+                        <script type="text/javascript">
+                            SetAbleStateSeat();
+                        </script>
+                    }
+                    else
+                    {
+                    <td></td>
+                    }
+                    <td>
+
+                        <input type="submit" value="Temp" name="action:Booking"  id="btn_refresh" style="display: none;"/>
+                        <input type="submit" value="예약하기" name="action:DoBook" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="button" value="이전페이지" onclick="location.href='@Url.Action("loginMember", "Home")'" />
+                    </td>
+                </tr>
+            </table>
+    }
+
+
+    @* 여기서는 이전에 사용자가 선택했던 드롭박스의 값을 유지하도록 해주는 스크립트를 실행하는 구간입니다. *@
+    @if (Model.SelectedMovieID != null)
+    {
+        <script type="text/javascript">
+            SetMovieNameInDropBox(Model.SelectedMovieID)
+        </script>
+        if (Model.SelectedPlaytime != null)
+        {
+            <script type="text/javascript">
+                SetPlaytimeInDropBox(Model.SelectedPlaytime)
+            </script>
+            if (Model.SelectedTheater != null)
+            {
+                <script type="text/javascript">
+                    SetTheaterInDropBox(Model.SelectedTheater)
+                </script>
+            }
+            else
+            {
+                <script type="text/javascript">
+                    SetTheaterInDropBox("None");
+                </script>
+            }
+        }
+        else
+        {
+            <script type="text/javascript">
+                SetPlaytimeInDropBox("선택하세요.");
+            </script>
+        }
+    }
+    else
+    {
+        <script type="text/javascript">
+            SetMovieNameInDropBox("None")
+        </script>
+    }
 
 </body>
 </html>

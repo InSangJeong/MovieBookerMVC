@@ -14,6 +14,7 @@ namespace MovieBooker.Models
         public string Seatremained { get; set; }
 
         //드롭다운리스트에 제가 지정한 형식대로 표현하기위한 필드입니다. 그 이외에는 사용하지마세요.
+        //ex) 1관(10) <- 1관에 빈좌석수 10자리
         public string RemaindSeatMent { get; set; }
 
         static public List<Movieschedule> SqlDataReaderToMember(SqlDataReader Reader)

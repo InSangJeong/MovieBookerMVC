@@ -12,7 +12,7 @@ namespace MovieBooker.DAL
     {
         public static SqlConnection connect = new SqlConnection(ConfigurationManager.ConnectionStrings["DBManager"].ToString());
 
-        public static List<Seat> Select_Theater(string WhereString, List<Tuple<string, object>> Params)
+        public static List<Seat> Select_Seats(string WhereString, List<Tuple<string, object>> Params)
         {
             connect.Open();
             SqlCommand cmd = new SqlCommand();

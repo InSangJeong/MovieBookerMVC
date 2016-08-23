@@ -187,7 +187,7 @@ namespace MovieBooker.Controllers
                     Params.Add(new Tuple<string, object>("@movieID" + Convert.ToString(i), Movies[i - 1].MovieID));
                     i++;
                 }
-                List<Movieschedule> MovieSc = Movieschedule_DAL.Select_Theater(Command, Params);
+                List<Movieschedule> MovieSc = Movieschedule_DAL.Select_MovieSC(Command, Params);
                 var listDistinct = MovieSc.GroupBy(mvsc => mvsc.TheaterID, (key, group) => group.First()).ToList();
                 //뽑아온 곳은 영화 스케쥴 테이블인데 영화관 객체에 넣으면 안되기때문에 영화관 ID만 받아서 리스트로 생성한다.
 

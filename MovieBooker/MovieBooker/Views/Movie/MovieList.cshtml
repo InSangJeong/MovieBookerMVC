@@ -60,16 +60,12 @@
     </script>
     <table>
         <tr>
-            <th>
-
-                @using (Html.BeginForm("NewMovie", "Home"))
-            {
-                    <input type="submit" value="영화등록" />
-                }
-            </th>
-            <th>
+            <td>
+                <input type="button" value="영화 등록" onclick="location.href='@Url.Action("NewMovie", "Movie")'" />
+            </td>
+            <td>
                 <input type="button" value="돌아가기" onclick="location.href='@Url.Action("loginAdmin", "Home")'" />
-            </th>
+            </td>
         </tr>
     </table>
 </body>
