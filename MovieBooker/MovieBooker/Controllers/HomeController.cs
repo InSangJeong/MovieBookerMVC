@@ -22,6 +22,7 @@ namespace MovieBooker.Controllers
         [HttpPost]
         public ActionResult Home(Member member)
         {
+            
             //로그인 처리
             if (!string.IsNullOrEmpty(member.ID) && !string.IsNullOrEmpty(member.Pass))
             {
@@ -94,5 +95,7 @@ namespace MovieBooker.Controllers
             Session.Abandon();
             return RedirectToAction("Home", "Home");
         }
+
+        
     }
 }

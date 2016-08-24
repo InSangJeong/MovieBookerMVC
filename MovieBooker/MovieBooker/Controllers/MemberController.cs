@@ -43,6 +43,11 @@ namespace MovieBooker.Controllers
         [HttpPost]
         public ActionResult NewMember(Member inputMember)
         {
+            Member ValidationCheck = new Member();
+            ValidationCheck.ID = inputMember.ID;
+            ValidationCheck.Pass = inputMember.Pass;
+            ValidationCheck.CheckPass = inputMember.CheckPass;
+
             //추가할 회원 값 셋팅
             List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
             Params.Add(new Tuple<string, object>("@ID", inputMember.ID));

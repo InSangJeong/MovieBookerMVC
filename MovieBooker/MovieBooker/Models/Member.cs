@@ -10,9 +10,15 @@ namespace MovieBooker.Models
     public class Member
     {
         [Required]
+        [Display(Name = "사용자 계정")]
         public String ID { get; set; }
         [Required]
+        [Display(Name = "비밀번호")]
         public String Pass { get; set; }
+        [Required]
+        [Display(Name = "확인용 비밀번호")]
+        [Compare("Pass", ErrorMessage ="암호와 확인암호가 일치하지 않습니다.")]
+        public String CheckPass { get; set; }
         [Required]
         public String Name { get; set; }
         [Required]
@@ -31,7 +37,7 @@ namespace MovieBooker.Models
         public String Address { get; set; }
         public String Phone { get; set; }
 
-        public String CheckPass { get; set; }
+      
         static public List<Member> SqlDataReaderToMember(SqlDataReader Reader)
         {
             List<Member> Members = new List<Member>();

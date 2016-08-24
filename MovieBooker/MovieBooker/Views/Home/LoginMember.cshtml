@@ -2,9 +2,9 @@
 
 @{
     ViewBag.Title = "LoginMember";
+        Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
-<h2>LoginMember</h2>
 
 <html>
 <head>
@@ -19,50 +19,68 @@
                 if(i == number)
                 {
                     document.getElementById("image" + number).src = "/Images/"+MovieList[i].Movieposter;
+                    document.getElementById("label" + number).innerText = MovieList[i].Movieposter;
                 }
                 i++;
             }
         }
     </script>
+
 </head>
 <body>
-    <table border="1">
-        <tr>
-            <td rowspan="5"><input type="image" id="image0" /></td>
-            <td rowspan="5"><input type="image" id="image1" /></td>
-            <td rowspan="5"><input type="image" id="image2" /></td>
-            <td >
-                안녕하세요.
-            </td>
-        </tr>
-        <tr>
-            <td><input type="button" value="포인트 충전" onclick="location.href='@Url.Action("RechargePoint", "Point")'" /></td>
-        </tr>
-        <tr>
-            <td><input type="button" value="예매하기" onclick="location.href='@Url.Action("Booking", "Book")'" /></td>
-        </tr>
-        <tr>
-            <td><input type="button" value="예매내역 확인" onclick="location.href='@Url.Action("BookingList", "Book")'" /></td>
-        </tr>
-        <tr>
-            <td><input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" /></td>
-        </tr>
-    </table>
-   
+        <table cellpadding="10"  class="one">
+            <tr>
+                <td colspan="3" class="h1">
+                    현재 상영 영화
+                </td>
+            </tr>
 
-    @for (int i = 0; i <= Enumerable.Count(ViewBag.ViewMovie); i++)
-    {
-        if (i == 3)
+            <tr>
+
+                <td><input type="image" id="image0" /></td>
+                <td><input type="image" id="image1" /></td>
+                <td><input type="image" id="image2" /></td>
+            </tr>
+            <tr>
+                <td>@Html.Label("영화 준비중입니다.", new { id = "label0" })</td>
+                <td>@Html.Label("영화 준비중입니다.", new { id = "label1" })</td>
+                <td>@Html.Label("영화 준비중입니다.", new { id = "label2" })</td>
+            </tr>
+        </table>
+        <table class="two">
+            <tr style="height:60px;">
+                <td align="right">
+                <input type="button" value="포인트 충전" class="button big gray" onclick="location.href='@Url.Action("RechargePoint", "Point")'" /></td>
+                </tr>
+            <tr style="height:60px;">
+                <td align="right">
+                    <input type="button" value="예매하기" class="button big gray" onclick="location.href='@Url.Action("Booking", "Book")'" />
+                </td>
+            </tr>
+            <tr style="height:60px;">
+                <td align="right">
+                    <input type="button" value="예매내역 확인" class="button big gray" onclick="location.href='@Url.Action("BookingList", "Book")'" />
+                </td>
+            </tr>
+            <tr style="height:60px;">
+                <td align="right">
+                    <input type="button" value="로그 아웃" class="button big gray" onclick="location.href='@Url.Action("Logout", "Home")'" />
+                </td>
+            </tr>
+        </table>
+        @for (int i = 0; i <= Enumerable.Count(ViewBag.ViewMovie); i++)
         {
-            break;
-        }
-        @*<input type="text" value=@ViewBag.ViewMovie[i].Movieposter />*@
-        <script type="text/javascript">
-            SetMoviePoster(@i)
-        </script>
+            if (i == 3)
+            {
+                break;
+            }
+            @*<input type="text" value=@ViewBag.ViewMovie[i].Movieposter />*@
+            <script type="text/javascript">
+                SetMoviePoster(@i)
+            </script>
 
-    }
-        
+        }
+
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 ﻿@model  MovieBooker.Models.Member
 @{
-    Layout = null;
+    Layout = "../Shared/MovieBookerLayout.cshtml";
     Page.Title = "";
 }
 <h2>영화 예매 시스템에 오신것을 환영합니다.</h2>
@@ -13,26 +13,30 @@
 </head>
 <body>
     <div style="height: 273px">
-        <table>
+        <table align="center" cellspacing="20">
             @using (Html.BeginForm("Home", "Home"))
             {
                 <tr>
-                    <td> ID : </td>
-                    <td>
+                    <td height="20"></td>
+                </tr>
+                <tr>
+                    <td align="center"> ID : </td>
+                    <td align="center" colspan="2">
                         @Html.TextBoxFor(m => m.ID)
                     </td>
                 </tr>
                     <tr>
-                        <td> Pass : </td>
-                        <td>
+                        <td align="center"> Pass : </td>
+                        <td align="center" colspan="2">
                             @Html.PasswordFor(m => m.Pass)
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td></td>
+                        <td align="center">
                             <input type="submit" value="로그인" />
                         </td>
-                        <td>
+                        <td align="center">
                             <input type="button" value="회원가입" onclick="location.href='@Url.Action("NewMember", "Member")'" />
                         </td>
                     </tr>

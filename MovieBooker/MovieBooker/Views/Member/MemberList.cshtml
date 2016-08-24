@@ -1,6 +1,7 @@
 ﻿@model MovieBooker.Models.Member
 @{
     ViewBag.Title = "MemberList";
+    Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
 <h2>고객 목록</h2>
@@ -19,7 +20,7 @@
             <th>성별</th>
             <th></th>
         </tr>
-        @foreach(MovieBooker.Models.Member member in ViewBag.Members)
+        @foreach (MovieBooker.Models.Member member in ViewBag.Members)
         {
             if (member.ID.Trim().Equals("admin"))
             {

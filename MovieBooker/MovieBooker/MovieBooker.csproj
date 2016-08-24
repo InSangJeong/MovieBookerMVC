@@ -238,9 +238,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -258,6 +256,7 @@
     <Content Include="Views\Theater\TheaterList.cshtml" />
     <Content Include="Views\Movie\SelectTheater.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
+    <Content Include="Views\Shared\MovieBookerLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
