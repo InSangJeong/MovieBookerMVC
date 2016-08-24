@@ -4,7 +4,7 @@
     Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
-<h2>Booking</h2>
+<h2>예약을 시작합니다.</h2>
 <html>
 <head>
     <title>
@@ -41,7 +41,7 @@
                 for(j = 1 ; j <= Numbervalue ; j++)
                 {
                     if (document.getElementById(NumberToAlphabet(i) + "_" + j).checked)
-                        document.getElementById(NumberToAlphabet(i) + "_" + j).disabled = true;
+                        document.getElementById(NumberToAlphabet(i) + "_" + j).disabled = true
                 }
             }
             //document.getElementById("check").disabled = false;
@@ -64,18 +64,19 @@
     @*@using (Html.BeginForm("Booking", "Book", FormMethod.Post))*@
         @using (Html.BeginForm("Action", "Book", FormMethod.Post))
         {
-        <table>
+        <table align="center">
             <tr>
-                <td>
+                <td class="h1">
                     영화명 : @Html.DropDownListFor(m => m.SelectedMovieID,
            Model.Movies.Select(c => new SelectListItem { Text = c.Moviename, Value = c.MovieID }),
-           new {  onchange ="Refresh()",  id = "DropMovieName" })
+           new { onchange = "Refresh()", id = "DropMovieName" })
                 </td>
+
                 @* 사용자가 영화명을 선택한 경우에 상영날짜를 생성함. *@
                 @if (Model.SelectedMovieID != null && Model.SelectedMovieID != "None")
                 {
                     
-                    <td>
+                    <td class="h1">
                         상영날짜 : @Html.DropDownListFor(m => m.SelectedPlaytime,
           Model.movieSchedules.Select(c => new SelectListItem { Text = c.Playtime, Value = c.Playtime }),
           new { onchange = "Refresh()", id = "DropPlayTime" })
@@ -83,14 +84,14 @@
                 }
                 else
                 {
-                    <td>
-                        상영날짜 :
+                    <td class="h1">
+                        상영날짜 : <select><option value="none">영화를 선택하세요.</option></select>
                     </td>
                 }
                 @* 사용자가 상영시간을 선택하였을 경우 값을 셋팅. *@
                 @if (Model.SelectedPlaytime != null && Model.SelectedPlaytime != "")
                 {
-                    <td>
+                    <td class="h1">
                         상영관 : @Html.DropDownListFor(m => m.SelectedTheater,
            Model.SelectedmovieSchedules.Select(c => new SelectListItem { Text = c.RemaindSeatMent, Value = c.TheaterID }),
            new { onchange = "Refresh()", id = "DropTheater" })
@@ -98,8 +99,8 @@
                 }
                 else
                 {
-                    <td>
-                        상영관 :
+                    <td class="h1">
+                        상영관 : <select><option value="none">상영관을 선택하세요.</option></select>
                     </td>
                 }
 
@@ -114,20 +115,22 @@
                     @if (Model.SelectedMovieID != null && Model.SelectedMovieID != "None" && Model.SelectedPlaytime != null && Model.SelectedPlaytime != "" && Model.SelectedTheater != null && Model.SelectedTheater != "")
                     {
                         @* 상영관 좌석생성 *@
-                        <table id="SeatTable">
+                        <table id="SeatTable" align="center" cellpadding="10" >
+                            <tr><td align="center" bgcolor="white" colspan=@Convert.ToInt32(Model.Seats.Last().Seatnumber)>Screen</td></tr>
                             @for (int i = 65, k = 0; i <= Convert.ToInt32(Convert.ToChar(Model.Seats.Last().Seatrow)); i++)
                             {
                                 <tr>
                                     @for (int j = 1; j <= Convert.ToInt32(Model.Seats.Last().Seatnumber); j++)
                                     {
                                         MovieBooker.Models.Seat seat = Model.Seats.FindLast(m => m.Seatrow == Convert.ToString(Convert.ToChar(i)) && Convert.ToInt32(m.Seatnumber) == j);
-                                        <td>
+                                        <td align="center" class="h1">
                                             @*@Html.CheckBoxFor(m => m.Seats.FindLast(n => n.Seatnumber == seat.Seatnumber && n.Seatrow == seat.Seatrow).IsNewbooked,
                                             new { id = seat.Seatrow + "_" + seat.Seatnumber , @checked = "checked" })*@
                                             @Html.CheckBoxFor(m => Model.Seats[k].IsNewbooked,
                                             new { id = seat.Seatrow + "_" + seat.Seatnumber })
                                             <br />
-                                            @Html.TextBox("_",seat.Seatrow + "_" + seat.Seatnumber)
+                                            @*@Html.TextBox("_",seat.Seatrow + "_" + seat.Seatnumber,null, new { class = "small-input"})*@
+                                            @Html.Label(seat.Seatrow + " " + seat.Seatnumber)
                                             @Html.HiddenFor(m => Model.Seats[k].Isbooked)
                                             @Html.HiddenFor(m => Model.Seats[k].Playtime)
                                             @Html.HiddenFor(m => Model.Seats[k].Seatnumber)
@@ -136,6 +139,11 @@
                                         </td>
                                         k++;
                                     }
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.Label(" ")
+                                    </td>
                                 </tr>
                             }
                         </table>
@@ -146,14 +154,9 @@
                             SetAbleStateSeat();
                         </script>
                     }
-                    else
-                    {
-                    <td></td>
-                    }
                     <td>
-
-                        <input type="submit" value="Temp" name="action:Booking"  id="btn_refresh" style="display: none;"/>
                         <input type="submit" value="예약하기" name="action:DoBook" />
+                        <input type="submit" value="Temp" name="action:Booking"  id="btn_refresh" style="display: none;"/>
                     </td>
                 </tr>
 

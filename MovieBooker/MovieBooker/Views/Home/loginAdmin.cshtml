@@ -9,10 +9,29 @@
     <title></title>
 </head>
 <body>
-    <input type="button" value="상영 영화 관리" onclick="location.href='@Url.Action("MovieList", "Movie")'" />
-    <input type="button" value="상영관 관리" onclick="location.href='@Url.Action("TheaterList", "Theater")'" />
-    <input type="button" value="회원 관리" onclick="location.href='@Url.Action("MemberList", "Member")'" />
-    <input type="button" value="로그 아웃" onclick="location.href='@Url.Action("Logout", "Home")'" />
+    <table align="center" cellpadding="10">
+        <tr>
+            <td>
+                <input type="button" class ="button big brown" value="상영 영화 관리" onclick="location.href='@Url.Action("MovieList", "Movie")'" />
+            </td>
+            <td>
+                <input type="button" class ="button big brown" value="상영관 관리" onclick="location.href='@Url.Action("TheaterList", "Theater")'" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" class ="button big brown" value= "회원 관리         " onclick="location.href='@Url.Action("MemberList", "Member")'" />
+            </td>
+            <td>
+                <input type="button" class ="button big brown" value="로그 아웃   " onclick="location.href='@Url.Action("Logout", "Home")'" />
+            </td>
+        </tr>
+    </table>
+  <br />
+    <br />
+   
+    
+    
    
 
 </body>

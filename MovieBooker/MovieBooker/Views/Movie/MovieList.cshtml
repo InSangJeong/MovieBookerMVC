@@ -21,7 +21,6 @@
             for(var movie in MovieList)
             {
                 var tr = document.createElement("tr");
-                tr.setAttribute("bgColor", "#FFFFCC"); // 배경색
 
                 var td1 = document.createElement("td");
                 var td2 = document.createElement("td");
@@ -47,7 +46,7 @@
     </script>
 </head>
 <body>
-    <table border="1" id="MovieListTable">
+    <table border="1" id="MovieListTable" >
         <tr>
             <th>영화제목</th>
             <th>상영 시작일</th>
@@ -69,5 +68,6 @@
             </td>
         </tr>
     </table>
+    <br />
 </body>
 </html>

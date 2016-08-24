@@ -4,7 +4,7 @@
     Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
-<h2>NewMovie</h2>
+<h2>새로운 영화를 등록합니다.</h2>
 
 <html>
 <head>
@@ -31,57 +31,67 @@
     </script>
 </head>
 <body>
-    <table>
+    <table >
         @using (Html.BeginForm("NewMovie", "Movie", FormMethod.Post, new { enctype = "multipart/form-data"}))
         {
             <tr>
-                <td>영화 제목</td>
+                <td class="h1">영화 제목</td>
                 <td>@Html.TextBoxFor(m => m.movie.Moviename)</td>
             </tr>
             <tr>
-                <td>상영 시작일시</td>
+                <td class="h1">상영 시작일시</td>
                 <td>@Html.TextBoxFor(m => m.movie.Playstartdatetime, new { id = "TXT_StartDay" })</td>
             </tr>
             <tr>
-                <td>상영 종료일시</td>
+                <td class="h1">상영 종료일시</td>
                 <td>@Html.TextBoxFor(m => m.movie.Playenddatetime, new { id = "TXT_EndDay" })</td>
             </tr>
             <tr>
-                <td> <button type="button" onclick=NewPopup()>상영관 검색 </button> </td>
+                <td class="h1"> <button type="button" onclick=NewPopup()>상영관 검색 </button> </td>
                 <td>@Html.TextBoxFor(m => m.theater.TheaterID, new { id = "TXT_theaterID", @readonly = true})</td>
+                <td class="h1">* 상영일시를 입력하세요.</td>
             </tr>
             <tr>
-                <td>상영관이미지</td>
+                <td class="h1">상영관이미지</td>
                 <td>
                     @Html.HiddenFor(m => m.movie.Movieposter, new { id = "hidden_imgPath" })
                     <input type="file" name="file" id="file" onchange=SetimagePath() />
                 </td>
             </tr>
             <tr>
-                <td>관람등급</td>
+                <td class="h1">관람등급</td>
                 <td>@Html.TextBoxFor(m => m.movie.Viewingclass)</td>
             </tr>
             <tr>
-                <td>Run Time</td>
+                <td class="h1">Run Time</td>
                 <td>@Html.TextBoxFor(m => m.movie.Runningtime)</td>
             </tr>
-            <tr>
-                <td>상영 시간 목록</td>
-                <td>@Html.TextAreaFor(m => m.PlayDayTimes, new { id = "TXT_playtime" })</td>
-                <td><input type="text" id="TXT_addplayTime"/></td>
-                
-                <td><input type="button" value="추가" onclick=addPlaytime() /></td>
+            <tr >
+                <td class="h1">상영 시간 목록</td>
+                <td height="60">
+                    @Html.TextAreaFor(m => m.PlayDayTimes, new { id = "TXT_playtime", @readonly = "False", rows="5"})
+                </td>
+                <td class="h1">
+                    <input type="text" id="TXT_addplayTime"/><br />
+                    *Ex)2016-08-24 12:12:30 TO <br />
+                        20160824121230
+                </td>
+                <td>
+                    <input type="button" class="button small gray" value="추가" onclick=addPlaytime() />
+                </td>
             </tr>
                 
             <tr>
-                <td><input type="submit" value="추가" /></td>
+                <td></td>
+                <td><input type="submit" class="button middle gray" value="추가" />
+                </td>
                 <td>
-                    <input type="button" value="돌아가기" onclick="location.href='@Url.Action("MovieList", "Movie")'"/>
+                    <input type="button" class="button middle gray" value="돌아가기" onclick="location.href='@Url.Action("MovieList", "Movie")'"/>
                 </td>
             </tr>
         }
-
+      
     </table>
-
+    <br />
 </body>
 </html>

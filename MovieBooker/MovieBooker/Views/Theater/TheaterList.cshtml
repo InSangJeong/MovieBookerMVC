@@ -12,28 +12,22 @@
 
 </head>
 <body>
-    <table border="1" id="TheaterTable">
+    <table  border="1" id="TheaterTable" align="center">
         <tr>
-            <th>상영관 ID </th>
-            <th>총 좌석수</th>
-            <th>마지막 열</th>
-            <th>열당 좌석수</th>
+            <th align="center">상영관 ID </th>
+            <th align="center">총 좌석수</th>
+            <th align="center">마지막 열</th>
+            <th align="center">열당 좌석수</th>
             @*<th></th>*@
         </tr>
         @foreach (MovieBooker.Models.Theater theater in ViewBag.Theaters)
         {
             <tr>
-                <td>@theater.TheaterID</td>
-                <td>@theater.Seatcount</td>
-                <td>@theater.Seatrowcount</td>
-                <td>@theater.Seatnumbercount</td>
-                @*<td>
-                    @using (Html.BeginForm("RemoveTheater", "Theater"))
-                {
-                    @Html.Hidden("theater.TheaterID", theater.TheaterID)
-                    <input type="submit" value="제거" />
-                }
-            </td>*@
+                <td align="center">@theater.TheaterID</td>
+                <td align="center">@theater.Seatcount</td>
+                <td align="center">@theater.Seatrowcount</td>
+                <td align="center">@theater.Seatnumbercount</td>
+
         </tr>
         }
 
@@ -43,24 +37,30 @@
         SetTheatersToTable();
     </script>
 
-    <table>
+    <table align="center">
         <tr>
             @using (Html.BeginForm("NewTheater", "Theater"))
             {
-                <th>@Html.TextBoxFor(m => m.Seatrowcount, new { size = 5 })관 </th>
-                <th>@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 5 })열</th>
-                <th>
-                    <input type="submit" value="상영관 추가" />
+                <th align="center">@Html.TextBoxFor(m => m.Seatrowcount, new { size = 5 })관 </th>
+                <th align="center">@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 5 })열</th>
+                <th align="center">
+                    <input type="submit" class="button samll gray" value="상영관 추가" />
                 </th>
             }
             @using (Html.BeginForm("loginAdmin", "Home"))
             {
-                <th>
-                    <input type="submit" value="이전페이지" />
+                <th align="center">
+                    <input type="submit" class="button samll gray" value="이전페이지" />
                 </th>
             }
         </tr>
-</table>
-    * 상영관은 Max열 Max번까지 입력해주세요.
+        <tr>
+            <td colspan="3">
+                * 상영관은 Max열 Max번까지 입력해주세요.
+            </td>
+        </tr>
+    </table>
+   
+    <br />
 </body>
 </html>

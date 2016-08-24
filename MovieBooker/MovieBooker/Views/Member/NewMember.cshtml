@@ -5,16 +5,16 @@
     Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
-<h2>NewMember</h2>
+<h2>환영합니다. 회원등록을 시작합니다.</h2>
 
 <html>
 <head>
     <title>회원 가입</title>
 </head>
 <body>
-    회원가입 페이지입니다.
+    
     (*)표시는 필수사항입니다.
-    <table>
+    <table >
 @using (Html.BeginForm("NewMember", "Member"))
 {
     <tr>
@@ -65,6 +65,7 @@
         </tr>
 }
     </table>
+    <br />
 
 </body>
 </html>
