@@ -11,26 +11,26 @@
     <title></title>
 </head>
 <body>
-    <table align="center" border="1">
+    <table align="center" class="stats">
         <tr>
-            <th class="h1">상영 일자</th>
-            <th class="h1">영화 제목</th>
-            <th class="h1">상영관</th>
-            <th class="h1">좌석 열</th>
-            <th class="h1">좌석 번호</th>
-            <th class="h1">관람 등급</th>
-            <th class="h1">예매 취소</th>
+            <th class="hed">상영 일자</th>
+            <th class="hed">영화 제목</th>
+            <th class="hed">상영관</th>
+            <th class="hed">좌석 열</th>
+            <th class="hed">좌석 번호</th>
+            <th class="hed">관람 등급</th>
+            <th class="hed">예매 취소</th>
         </tr>
         @foreach (MovieBooker.Models.Bookinginfo book in ViewBag.Bookings)
         {
             <tr>
-                <td align="center">@book.Playdatetime</td>
-                <td align="center">@book.Moviename</td>
-                <td align="center">@book.TheaterID</td>
-                <td align="center">@book.Seatrow</td>
-                <td align="center">@book.Seatnumber</td>
-                <td align="center">@book.Viewingclass</td>
-                <td align="center">
+                <td >@book.Playdatetime</td>
+                <td >@book.Moviename</td>
+                <td >@book.TheaterID</td>
+                <td >@book.Seatrow</td>
+                <td >@book.Seatnumber</td>
+                <td >@book.Viewingclass</td>
+                <td >
                     @using (Html.BeginForm("RemoveBooking", "Book"))
                     {
                         @Html.Hidden("bookinfo.ID", book.ID)

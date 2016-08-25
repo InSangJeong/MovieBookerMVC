@@ -12,12 +12,12 @@
 
 </head>
 <body>
-    <table  border="1" id="TheaterTable" align="center">
+    <table  border="1" id="TheaterTable" align="center" class="stats">
         <tr>
-            <th align="center">상영관 ID </th>
-            <th align="center">총 좌석수</th>
-            <th align="center">마지막 열</th>
-            <th align="center">열당 좌석수</th>
+            <td align="center" class="hed">상영관 ID </td>
+            <td align="center" class="hed">총 좌석수</td>
+            <td align="center" class="hed">마지막 열</td>
+            <td align="center" class="hed">열당 좌석수</td>
             @*<th></th>*@
         </tr>
         @foreach (MovieBooker.Models.Theater theater in ViewBag.Theaters)
@@ -41,21 +41,21 @@
         <tr>
             @using (Html.BeginForm("NewTheater", "Theater"))
             {
-                <th align="center">@Html.TextBoxFor(m => m.Seatrowcount, new { size = 5 })관 </th>
-                <th align="center">@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 5 })열</th>
-                <th align="center">
+                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatrowcount, new { size = 2 })관 </td>
+                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 2 })열</td>
+                <td align="center">
                     <input type="submit" class="button samll gray" value="상영관 추가" />
-                </th>
+                </td>
             }
             @using (Html.BeginForm("loginAdmin", "Home"))
             {
-                <th align="center">
+                <td align="center">
                     <input type="submit" class="button samll gray" value="이전페이지" />
-                </th>
+                </td>
             }
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="3" class="h1">
                 * 상영관은 Max열 Max번까지 입력해주세요.
             </td>
         </tr>

@@ -12,13 +12,13 @@
 
 </head>
 <body>
-    <table border="1" id="MemberTable">
+    <table  id="MemberTable" class="stats">
         <tr>
-            <th>고객 ID </th>
-            <th>이름</th>
-            <th>나이</th>
-            <th>성별</th>
-            <th></th>
+            <td class="hed">고객 ID </td>
+            <td class="hed">이름</td>
+            <td class="hed">나이</td>
+            <td class="hed">성별</td>
+            <td class="hed"></td>
         </tr>
         @foreach (MovieBooker.Models.Member member in ViewBag.Members)
         {
@@ -30,7 +30,15 @@
                 <td>@member.ID</td>
                 <td>@member.Name</td>
                 <td>@member.Age</td>
-                <td>@member.Sex</td>
+                @if (@member.Sex.Equals("True"))
+                {
+                    <td>남자</td>
+                }
+                else
+                {
+                    <td>여자</td>
+                }
+                
                 <td>@using (Html.BeginForm("RemoveMember", "Member"))
                 {
                     @Html.Hidden("member.ID", member.ID)
@@ -40,6 +48,7 @@
             </tr>
         }
     </table>
+    <br />
     <table>
         <tr>
             <th>
@@ -48,5 +57,6 @@
             </th>
         </tr>
     </table>
+    <br />
 </body>
 </html>

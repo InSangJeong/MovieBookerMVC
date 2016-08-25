@@ -32,6 +32,11 @@
                 td3.innerText = MovieList[i].Playenddatetime;
                 td4.innerText = MovieList[i].Runningtime;
                 td5.innerText = MovieList[i].Viewingclass;
+                td1.className = "alertBod";
+                td2.className = "alertBod";
+                td3.className = "alertBod";
+                td4.className = "alertBod";
+                td5.className = "alertBod";
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
@@ -46,25 +51,26 @@
     </script>
 </head>
 <body>
-    <table border="1" id="MovieListTable" >
+    <table border="1" id="MovieListTable" class="stats" align="center" >
         <tr>
-            <th>영화제목</th>
-            <th>상영 시작일</th>
-            <th>상영 종료일</th>
-            <th>상영시간</th>
-            <th>관람등급</th>
+            <td class="hed">영화제목</td>
+            <td class="hed">상영 시작일</td>
+            <td class="hed">상영 종료일</td>
+            <td class="hed">상영시간</td>
+            <td class="hed">관람등급</td>
         </tr>
     </table>
     <script type="text/javascript">
         SetMoivesToTable();
     </script>
-    <table>
+    <br />
+    <table align="center" cellpadding="10">
         <tr>
             <td>
-                <input type="button" value="영화 등록" onclick="location.href='@Url.Action("NewMovie", "Movie")'" />
+                <input type="button" value="영화 등록" class ="button middle gray" onclick="location.href='@Url.Action("NewMovie", "Movie")'" />
             </td>
             <td>
-                <input type="button" value="돌아가기" onclick="location.href='@Url.Action("loginAdmin", "Home")'" />
+                <input type="button" value="돌아가기"  class ="button middle gray"  onclick="location.href='@Url.Action("loginAdmin", "Home")'" />
             </td>
         </tr>
     </table>
