@@ -1,4 +1,4 @@
-﻿@model  MovieBooker.Models.Member
+﻿@model  MovieBooker.Models.LoginM
 @{
     Layout = "../Shared/MovieBookerLayout.cshtml";
     Page.Title = "";
@@ -24,13 +24,19 @@
                     <td align="center" colspan="2">
                         @Html.TextBoxFor(m => m.ID)
                     </td>
+                    <td class="Denger">
+                        @Html.ValidationMessageFor(m => m.ID)
+                    </td>
                 </tr>
-                    <tr>
-                        <td align="center"> Pass : </td>
-                        <td align="center" colspan="2">
-                            @Html.PasswordFor(m => m.Pass)
-                        </td>
-                    </tr>
+                <tr>
+                    <td align="center"> Pass : </td>
+                    <td align="center" colspan="2">
+                        @Html.PasswordFor(m => m.Pass)
+                    </td>
+                    <td class="Denger">
+                        @Html.ValidationMessageFor(m => m.Pass)
+                    </td>
+                </tr>
                     <tr>
                         <td></td>
                         <td align="center">
@@ -38,6 +44,11 @@
                         </td>
                         <td align="center">
                             <input type="button" value="회원가입" onclick="location.href='@Url.Action("NewMember", "Member")'" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
                         </td>
                     </tr>
             }

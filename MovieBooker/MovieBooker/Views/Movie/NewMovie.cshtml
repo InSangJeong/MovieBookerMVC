@@ -35,6 +35,11 @@
         @using (Html.BeginForm("NewMovie", "Movie", FormMethod.Post, new { enctype = "multipart/form-data"}))
         {
             <tr>
+                <td colspan="4" class="Denger">
+                    @Html.Label("Set from controller", Convert.ToString((string)ViewBag.ErrorMsg))
+                </td>
+            </tr>
+            <tr>
                 <td class="h1">영화 제목</td>
                 <td>@Html.TextBoxFor(m => m.movie.Moviename)</td>
             </tr>

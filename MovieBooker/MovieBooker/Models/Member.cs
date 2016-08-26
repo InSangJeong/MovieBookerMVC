@@ -7,34 +7,46 @@ using System.Web;
 
 namespace MovieBooker.Models
 {
+
     public class Member
     {
-        [Required]
+        
+        [Required(ErrorMessage = "계정을 입력하세요")]
         [Display(Name = "사용자 계정")]
         public String ID { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "비밀번호를 입력하세요")]
         [Display(Name = "비밀번호")]
         public String Pass { get; set; }
+
         [Required]
         [Display(Name = "확인용 비밀번호")]
         [Compare("Pass", ErrorMessage ="암호와 확인암호가 일치하지 않습니다.")]
         public String CheckPass { get; set; }
+
         [Required]
+        [Display(Name = "사용자 이름")]
         public String Name { get; set; }
-        [Required]
-        [Range(1,150)]
+
         public String Age { get; set; }
         
         [Required]
         [StringLength(6, MinimumLength = 6)]
+        [Range(typeof(DateTime), "1/1/1900", "8/30/2016")]
+        [Display(Name = "생년월일")]
         public String Birthday { get; set; }
+
         [Required]
         [Range(1, 4)]
         [StringLength(1, MinimumLength = 1)]
+        [Display(Name = "주민번호 뒷자리")]
         public String Sex { get; set; }
 
+        [MaxLength(512)]
         public String Point { get; set; }
+        [MaxLength(512)]
         public String Address { get; set; }
+        [MaxLength(14)]
         public String Phone { get; set; }
 
       

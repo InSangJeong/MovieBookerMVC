@@ -1,7 +1,7 @@
 ﻿@model MovieBooker.Models.Member
 
 @{
-    ViewBag.Title = "NewMember";
+    ViewBag.Title = "회원가입";
     Layout = "../Shared/MovieBookerLayout.cshtml";
 }
 
@@ -18,7 +18,7 @@
 @using (Html.BeginForm("NewMember", "Member"))
 {
     <tr>
-        <td>
+        <td colspan="4">
             @Html.ValidationSummary()
         </td>
     </tr>
@@ -29,7 +29,6 @@
         <tr>
             <td>비밀번호(*)</td>
             <td>
-                @Html.ValidationMessageFor(m => m.Pass)
                 @Html.TextBoxFor(m => m.Pass)
             </td>
         </tr>
@@ -45,8 +44,8 @@
         </tr>
         <tr>
             <td>주민번호(*)</td>
-            <td>@Html.TextBoxFor(m => m.Birthday)-</td>
-            <td>@Html.TextBoxFor(m => m.Sex)</td>
+            <td>@Html.TextBoxFor(m => m.Birthday, new { @type = "number", @maxlength = "6"})-</td>
+            <td>@Html.TextBoxFor(m => m.Sex, new { @type = "number", @maxlength = "1" })</td>
         </tr>
         <tr>
             <td>주소</td>
@@ -54,7 +53,7 @@
         </tr>
         <tr>
             <td>전화번호</td>
-            <td>@Html.TextBoxFor(m => m.Phone)</td>
+            <td>@Html.TextBoxFor(m => m.Phone, new { @type = "number", @maxlength = "11" })</td>
         </tr>
         <tr>
             <td></td>

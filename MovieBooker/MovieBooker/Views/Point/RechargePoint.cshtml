@@ -67,7 +67,7 @@
 {
     <table align="center" >
         <tr>
-    <td>@Html.TextBoxFor(m => m.Rechargedvalue)</td>
+    <td>@Html.TextBoxFor(m => m.Rechargedvalue, new { @type = "number"})</td>
             <td class="h1" align="center">원    </td>
             <td>
                 <input type="submit" value="충전 하기" class="button big gray"/>

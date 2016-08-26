@@ -41,8 +41,8 @@
         <tr>
             @using (Html.BeginForm("NewTheater", "Theater"))
             {
-                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatrowcount, new { size = 2 })관 </td>
-                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 2 })열</td>
+                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatrowcount, new { size = 2 })열 </td>
+                <td align="center" class="h1">@Html.TextBoxFor(m => m.Seatnumbercount, new { size = 2 })번</td>
                 <td align="center">
                     <input type="submit" class="button samll gray" value="상영관 추가" />
                 </td>

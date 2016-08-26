@@ -17,6 +17,8 @@ namespace MovieBooker.Controllers
         }
         public ActionResult TheaterList()
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
             List<Theater> ALLTheaters = Theater_DAL.Select_Theater("", new List<Tuple<string, object>>());
             ViewBag.Theaters = ALLTheaters;
             return View();
@@ -24,6 +26,8 @@ namespace MovieBooker.Controllers
         [HttpPost]
         public ActionResult TheaterList(Theater theater)
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
             List<Theater> ALLTheaters = Theater_DAL.Select_Theater("", new List<Tuple<string, object>>());
             ViewBag.Theaters = ALLTheaters;
             return View();
@@ -31,7 +35,9 @@ namespace MovieBooker.Controllers
 
         public ActionResult NewTheater(Theater theater)
         {
-            if(theater == null || theater.Seatnumbercount == null || theater.Seatrowcount == null)
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
+            if (theater == null || theater.Seatnumbercount == null || theater.Seatrowcount == null)
             {
                 //TODO 값 확인 메시지
                 return RedirectToAction("TheaterList", "Theater");

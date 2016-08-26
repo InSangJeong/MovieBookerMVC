@@ -124,8 +124,8 @@ namespace MovieBooker.Controllers
 
         public ActionResult Booking()
         {
-            //if (Session["MEMBER"] == null)
-            //    return RedirectToAction("Home", "Home");
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
             List<Movie> Movies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
             BookingSupporter ds = new BookingSupporter();
             ds.Movies = Movies;
@@ -308,6 +308,8 @@ namespace MovieBooker.Controllers
         [MultipleButton(Name = "action", Argument = "Booking")]
         public ActionResult Booking(BookingSupporter inputData)
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
             //사용자가 영화예매에 관련된 데이터들을 입력하였을때
             if (inputData.SelectedMovieID != null || inputData.SelectedMovieID != "None")
             {

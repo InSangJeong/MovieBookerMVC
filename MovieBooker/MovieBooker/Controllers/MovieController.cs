@@ -18,17 +18,33 @@ namespace MovieBooker.Controllers
         }
         public ActionResult MovieList()
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
             List<Movie> ALLMovies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
             ViewBag.Movies = ALLMovies;
             return View();
         }
         public ActionResult NewMovie()
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
+            ViewBag.ErrorMsg = "";
             return View();
         }
         [HttpPost]
         public ActionResult NewMovie(MovieAndTheater UserInputData, HttpPostedFileBase file)
         {
+            if (Session["MEMBER"] == null)
+                return RedirectToAction("Home", "Home");
+            ValidResult vr = Valid.isValid(UserInputData, file);
+            ViewBag.ErrorMsg = vr.FailMessage;
+            if (!vr.Result)
+            {
+                //TODO : 유효성검사 실패
+                //vr.FailMessage;
+                
+                return View();
+            }
             //TODO List: 
             // 1. 새로운 영화의 ID를 지정하기위해 이전 영화의 MaxID 호출
             // 2. 영화등록
@@ -145,7 +161,7 @@ namespace MovieBooker.Controllers
         public ActionResult SelectTheater(string StartDatetime, string EndDatetime)
         {
             //TODO 가용상영관 검색 코드 추가.
-            string Command = " WHERE Playstartdatetime <= @end AND Playenddatetime >= @start";
+          string Command = " WHERE Playstartdatetime <= @end AND Playenddatetime >= @start";
 
 
             List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
@@ -194,9 +210,10 @@ namespace MovieBooker.Controllers
                 //2. 1.에서 뽑은 상영관을 전체 상영관에서 제거한다.
                 Params = new List<Tuple<string, object>>();
                 Command = " WHERE TheaterID NOT IN (";
+                
                 foreach (var Theater in listDistinct)
                 {
-                    if (!MovieSc.Last().Equals(Theater))
+                    if (!listDistinct.Last().Equals(Theater))
                         Command += "@TheaterID" + Theater.TheaterID.Trim().ToString() + ", ";
                     else
                         Command += "@TheaterID" + Theater.TheaterID.Trim().ToString();

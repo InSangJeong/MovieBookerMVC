@@ -201,6 +201,7 @@
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\TheaterController.cs" />
+    <Compile Include="Controllers\Valid.cs" />
     <Compile Include="DAL\Bookinginfo_DAL.cs" />
     <Compile Include="DAL\Member_DAL.cs" />
     <Compile Include="DAL\Movieschedule_DAL.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Controllers\Common.cs" />
     <Compile Include="Controllers\Constant.cs" />
     <Compile Include="Models\BookingSupporter.cs" />
+    <Compile Include="Models\LoginM.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieAndTheater.cs" />
