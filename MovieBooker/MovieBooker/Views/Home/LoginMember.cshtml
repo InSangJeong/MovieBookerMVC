@@ -37,9 +37,9 @@
 
             <tr>
 
-                <td><input type="image" id="image0" /></td>
-                <td><input type="image" id="image1" /></td>
-                <td><input type="image" id="image2" /></td>
+                <td><input type="image" id="image0" src="/Images/No_Movie.png" width="150" height="200"/></td>
+                <td><input type="image" id="image1" src="/Images/No_Movie.png" width="150" height="200" /></td>
+                <td><input type="image" id="image2" src="/Images/No_Movie.png" width="150" height="200" /></td>
             </tr>
             <tr>
                 <td>@Html.Label("영화 준비중입니다.", new { id = "label0" })</td>
@@ -48,21 +48,25 @@
             </tr>
         </table>
         <table class="two">
-            <tr style="height:60px;">
+            <tr style="height:40px;">
+                <td>
+                </td>
+            </tr>
+            <tr style="height:50px;">
                 <td align="right">
                 <input type="button" value="포인트 충전" class="button big gray" onclick="location.href='@Url.Action("RechargePoint", "Point")'" /></td>
                 </tr>
-            <tr style="height:60px;">
+            <tr style="height:50px;">
                 <td align="right">
                     <input type="button" value="예매하기" class="button big gray" onclick="location.href='@Url.Action("Booking", "Book")'" />
                 </td>
             </tr>
-            <tr style="height:60px;">
+            <tr style="height:50px;">
                 <td align="right">
                     <input type="button" value="예매내역 확인" class="button big gray" onclick="location.href='@Url.Action("BookingList", "Book")'" />
                 </td>
             </tr>
-            <tr style="height:60px;">
+            <tr style="height:50px;">
                 <td align="right">
                     <input type="button" value="로그 아웃" class="button big gray" onclick="location.href='@Url.Action("Logout", "Home")'" />
                 </td>

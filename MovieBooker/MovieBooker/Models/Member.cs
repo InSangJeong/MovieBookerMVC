@@ -32,7 +32,6 @@ namespace MovieBooker.Models
         
         [Required]
         [StringLength(6, MinimumLength = 6)]
-        [Range(typeof(DateTime), "1/1/1900", "8/30/2016")]
         [Display(Name = "생년월일")]
         public String Birthday { get; set; }
 
@@ -58,9 +57,9 @@ namespace MovieBooker.Models
                 while (Reader.Read())
                 {
                     Member member = new Member();
-                    member.ID = Reader["ID"].ToString();
+                    member.ID = Reader["ID"].ToString().Trim();
                     member.Pass = Reader["Pass"].ToString();
-                    member.Name = Reader["Name"].ToString();
+                    member.Name = Reader["Name"].ToString().Trim();
                     member.Age = Reader["Age"].ToString();
                     member.Birthday = Reader["Birthday"].ToString();
                     member.Sex = Reader["Sex"].ToString();

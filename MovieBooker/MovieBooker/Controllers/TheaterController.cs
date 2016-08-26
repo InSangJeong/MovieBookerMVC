@@ -17,7 +17,7 @@ namespace MovieBooker.Controllers
         }
         public ActionResult TheaterList()
         {
-            if (Session["MEMBER"] == null)
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
             List<Theater> ALLTheaters = Theater_DAL.Select_Theater("", new List<Tuple<string, object>>());
             ViewBag.Theaters = ALLTheaters;
@@ -26,7 +26,7 @@ namespace MovieBooker.Controllers
         [HttpPost]
         public ActionResult TheaterList(Theater theater)
         {
-            if (Session["MEMBER"] == null)
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
             List<Theater> ALLTheaters = Theater_DAL.Select_Theater("", new List<Tuple<string, object>>());
             ViewBag.Theaters = ALLTheaters;
@@ -35,8 +35,8 @@ namespace MovieBooker.Controllers
 
         public ActionResult NewTheater(Theater theater)
         {
-            if (Session["MEMBER"] == null)
-                return RedirectToAction("Home", "Home");
+            if (Session["MEMBER"] == null && ((Member)Session["MEMBER"]).ID != "admin")
+                return RedirectToAction("Home", "Home" );
             if (theater == null || theater.Seatnumbercount == null || theater.Seatrowcount == null)
             {
                 //TODO 값 확인 메시지
@@ -46,7 +46,7 @@ namespace MovieBooker.Controllers
 
             List<Theater> Theaters = Theater_DAL.Select_Theater(Command, new List<Tuple<string, object>>());
             int NewTheaterID = 0;
-            if (Theaters != null ||Theaters.Count != 0)
+            if (Theaters.Count != 0)
             {
                 //상영관 ID는 기존 ID중 가장 큰 ID + 1
                 NewTheaterID = Convert.ToInt32(Theaters[0].TheaterID) + 1;

@@ -12,17 +12,43 @@ namespace MovieBooker.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Home", "Home");
         }
 
         public ActionResult Home()
         {
+            if (Session["MEMBER"] != null)
+            {
+                Member member = (Member)Session["MEMBER"];
+                if (member.ID == "admin")
+                {
+                    return RedirectToAction("loginAdmin", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("loginMember", "Home");
+                }
+            }
+            
             return View();
         }
         [HttpPost]
         public ActionResult Home(LoginM member)
         {
-            if(ModelState.IsValid)
+            if (Session["MEMBER"] != null)
+            {
+                Member loginedMember = (Member)Session["MEMBER"];
+                if (loginedMember.ID == "admin")
+                {
+                    return RedirectToAction("loginAdmin", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("loginMember", "Home");
+                }
+            }
+
+            if (ModelState.IsValid)
             {
                 //로그인 처리
                 if (!string.IsNullOrEmpty(member.ID) && !string.IsNullOrEmpty(member.Pass))

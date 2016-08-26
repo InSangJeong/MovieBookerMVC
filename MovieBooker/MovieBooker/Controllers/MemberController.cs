@@ -17,7 +17,7 @@ namespace MovieBooker.Controllers
         }
         public ActionResult MemberList()
         {
-            if (Session["MEMBER"] == null)
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
             List<Member> ALLMembers = Member_DAL.Select_Member("", new List<Tuple<string, object>>());
             ViewBag.Members = ALLMembers;
@@ -25,16 +25,37 @@ namespace MovieBooker.Controllers
         }
         public ActionResult RemoveMember(Member member)
         {
-            if (Session["MEMBER"] == null)
+            //회원삭제 로직
+            //1. 포인트 내역 제거
+            //2. 예약내역 제거
+            //3. 멤버제거
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
-            //회원 삭제
-            String CommandString = "Delete from Member Where ID=@ID";
+
+            String CommandString = "";
             List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
+            #region 1. 포인트내역
+            Params.Clear();
+            CommandString = "DELETE FROM Point Where ID=@ID";
+            Params.Add(new Tuple<string, object>("@ID", member.ID.Trim()));
+            Point_DAL.DoCommand(CommandString, Params);
+            #endregion
+
+            #region 2. 예매내역
+            Params.Clear();
+            CommandString = "Delete from Booking Where ID=@ID";
+            Params.Add(new Tuple<string, object>("@ID", member.ID.Trim()));
+            Bookinginfo_DAL.DoCommand(CommandString, Params);
+            #endregion
+            #region 3. 회원 삭제
+            Params.Clear();
+            CommandString = "Delete from Member Where ID=@ID";
             Params.Add(new Tuple<string, object>("@ID", member.ID.Trim()));
             if(!Member_DAL.DoCommand(CommandString, Params))
             {
                 //TODO Common.ShowMessage(, @"회원 삭제를 수행하지 못하였습니다.");
             }
+            #endregion
             //회원 삭제되고나서 새로 갱신된 화면을 띄운다.
             List<Member> ALLMembers = Member_DAL.Select_Member("", new List<Tuple<string, object>>());
             ViewBag.Members = ALLMembers;

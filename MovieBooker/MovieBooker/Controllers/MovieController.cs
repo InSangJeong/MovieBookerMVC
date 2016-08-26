@@ -18,15 +18,15 @@ namespace MovieBooker.Controllers
         }
         public ActionResult MovieList()
         {
-            if (Session["MEMBER"] == null)
-                return RedirectToAction("Home", "Home");
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
+                return RedirectToAction("Home", "Home" );
             List<Movie> ALLMovies = Movie_DAL.Select_Movie("", new List<Tuple<string, object>>());
             ViewBag.Movies = ALLMovies;
             return View();
         }
         public ActionResult NewMovie()
         {
-            if (Session["MEMBER"] == null)
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
             ViewBag.ErrorMsg = "";
             return View();
@@ -34,7 +34,7 @@ namespace MovieBooker.Controllers
         [HttpPost]
         public ActionResult NewMovie(MovieAndTheater UserInputData, HttpPostedFileBase file)
         {
-            if (Session["MEMBER"] == null)
+            if (Session["MEMBER"] == null || ((Member)Session["MEMBER"]).ID != "admin")
                 return RedirectToAction("Home", "Home");
             ValidResult vr = Valid.isValid(UserInputData, file);
             ViewBag.ErrorMsg = vr.FailMessage;
@@ -84,7 +84,7 @@ namespace MovieBooker.Controllers
 
             file = Request.Files[0];
             var fileName = Path.GetFileName(UserInputData.movie.Movieposter);
-            var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+            var path = Path.Combine(Server.MapPath("~/Images/"), NewMovieID + "_" + fileName);
             file.SaveAs(path);
 
             Params.Add(new Tuple<string, object>("@Movieposter", NewMovieID+"_"+ fileName));
